@@ -38,9 +38,30 @@ const Events = () => {
   const indexOfFirstEvent = indexOfLastEvent - rowsPerPage;
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
   const [user, setUser] = useState(null);
+  const [editable, seteditable] = useState(true);
+  const convertDate = (date) => {
+    const originalDate = new Date(date); // Parse the original date string
+    const year = originalDate.getFullYear(); // Get the year
+    const month = String(originalDate.getMonth() + 1).padStart(2, "0"); // Get the month (adding 1 because months are zero-based)
+    const day = String(originalDate.getDate()).padStart(2, "0"); // Get the day
 
+    const formattedDate = `${year}-${month}-${day}`;
+    // console.log(formattedDate); // Output: "2023-09-23"
+    return formattedDate;
+  };
+  function isDateGreaterThanTomorrow(date) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1); // Get tomorrow's date
+
+    // Convert the input date to a Date object if it's not already
+    const inputDate = new Date(date);
+
+    if (inputDate > tomorrow) {
+      // seteditable(true);
+      return true;
+    }
+  }
   useEffect(() => {
-    // Get the JWT token from wherever you have stored it (e.g., localStorage)
     const getUser = async () => {
       if (localStorage.getItem("userAuthToken")) {
         const token = localStorage.getItem("userAuthToken");
@@ -272,7 +293,7 @@ const Events = () => {
             {currentEvents.map((event) => (
               <tr key={event._id}>
                 <td>{event.event_name}</td>
-                <td>{event.event_date}</td>
+                <td>{convertDate(event.event_date)}</td>
                 <td>{event.event_type}</td>
                 <td>
                   {/* <button
@@ -298,15 +319,19 @@ const Events = () => {
                   <>
                     <td className="edit-project-buttons">
                       <div className="editprojectbutton">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => handleEditClick(event)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEdit}
-                            className="edit"
-                          ></FontAwesomeIcon>
-                        </button>
+                        {isDateGreaterThanTomorrow(event.event_date) ? (
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => handleEditClick(event)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faEdit}
+                              className="edit"
+                            ></FontAwesomeIcon>
+                          </button>
+                        ) : (
+                          <span>Can not Edit</span>
+                        )}
                       </div>
                     </td>
                     <td className="delete-project-buttons">
@@ -384,16 +409,31 @@ const Events = () => {
         </table>
         {user && (
           <>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-bs-dismiss
-                onClick={handleCreateClick}
-              >
-                Create Event
-              </button>
-            </div>
+            {user.name !== undefined + " " + undefined ? (
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-dismiss
+                  onClick={handleCreateClick}
+                >
+                  Create Event
+                </button>
+              </div>
+            ) : (
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-dismiss
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  Create Event
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

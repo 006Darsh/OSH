@@ -61,7 +61,7 @@ const Home = () => {
       <WhatWeDo />
       <ColouredSection />
       <Meetup />
-      <Partners />
+      {/* <Partners /> */}
       <Footer />
       <SecFooter />
     </div>

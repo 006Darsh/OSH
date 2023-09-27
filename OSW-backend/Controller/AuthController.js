@@ -40,7 +40,8 @@ exports.UserSignup = async (req, res) => {
       user_name: newUser.user_name,
       email: newUser.email,
       password: newUser.password,
-      type: "user",
+      name: user.profile.first_name + " " + user.profile.last_name,
+      type: "user", 
     };
 
     const authToken = genToken(payload);
@@ -126,13 +127,14 @@ exports.UserLogin = async (req, res) => {
     }
     // Compare the password from the request with the encrypted password stored in the database
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-
+    console.log(user);
     if (isPasswordMatch) {
       // Passwords match, generate token and send the response
       const payload = {
         _id: user._id,
         user_name: user.user_name,
         email: user.email,
+        name: user.profile.first_name + " " + user.profile.last_name,
         type: "user",
       };
 

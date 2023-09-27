@@ -419,13 +419,13 @@ export default function SpeakersProfile(props) {
                       <label for="formFile" className="form-label">
                         Profile Photo
                       </label>
-                      {selectedspeakerprofilephoto && (
+                      {/* {selectedspeakerprofilephoto && (
                         <img
                           className="speakerprofilephoto"
                           src={selectedspeakerprofilephoto}
                           alt="SelectedProfilePhoto"
                         />
-                      )}
+                      )} */}
                       <input
                         className="form-control"
                         name="speakerprofilephoto"

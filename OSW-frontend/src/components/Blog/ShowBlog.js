@@ -18,7 +18,7 @@ import PostUpdateAlert from "./PostUpdateAlert";
 import { hostname } from "../../hostname";
 import Navbar from "../Navbar";
 
-const ShowBlog = ({ userType }) => {
+const ShowBlog = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState();
 
@@ -27,7 +27,48 @@ const ShowBlog = ({ userType }) => {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // Get the JWT token from wherever you have stored it (e.g., localStorage)
+    const getUser = async () => {
+      if (localStorage.getItem("userAuthToken")) {
+        const token = localStorage.getItem("userAuthToken");
 
+        if (token) {
+          try {
+            // Split the token into its parts
+            const tokenParts = token.split(".");
+
+            // Base64-decode and parse the payload part (the second part)
+            const payload = JSON.parse(atob(tokenParts[1]));
+            console.log(payload.type);
+            setUser(payload); // Set user state with decoded data
+          } catch (error) {
+            // Handle decoding error (e.g., token is invalid)
+            console.error("Error decoding JWT token:", error);
+          }
+        }
+      } else {
+        const token = localStorage.getItem("adminAuthToken");
+        if (token) {
+          try {
+            // Split the token into its parts
+            const tokenParts = token.split(".");
+
+            // Base64-decode and parse the payload part (the second part)
+            const payload = JSON.parse(atob(tokenParts[1]));
+            console.log(payload.type);
+            setUser(payload); // Set user state with decoded data
+          } catch (error) {
+            // Handle decoding error (e.g., token is invalid)
+            console.error("Error decoding JWT token:", error);
+          }
+        }
+      }
+    };
+    getUser();
+    // console.log(user.type);
+  }, []);
   const theme = extendTheme({
     styles: {
       global: {
@@ -191,7 +232,7 @@ const ShowBlog = ({ userType }) => {
         position: "top-right",
       });
 
-      navigate(`/${userType}/media`);
+      navigate(`/blogs`);
     } catch (error) {
       console.error("Error fetching blog:", error);
       toast({
@@ -264,7 +305,7 @@ const ShowBlog = ({ userType }) => {
               _hover={{ boxShadow: "0px 4px 6px skyblue" }}
               _active={{ boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}
             >
-              {userType !== "ngo" ? "Back" : "Create New Blog"}
+              {/* {userType !== "ngo" ? "Back" : "Create New Blog"} */} Back
             </Button>
           </Box>
         </div>
@@ -363,36 +404,39 @@ const ShowBlog = ({ userType }) => {
             </Flex>
 
             {/* {(userType === "ngo" || userType === "admin") && ( */}
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              _groupHover={{ opacity: 1 }} // Visible on hover
-            >
-              <IconButton
-                icon={<DeleteIcon />}
-                variant="ghost"
-                _hover={{ color: "black", bgColor: "transparent" }}
-                color="red"
-                aria-label="Delete"
-                size="md"
-                onClick={() => {
-                  setIsDeleteDialogOpen(true);
-                }}
-              />
-              {/* {userType === "ngo" && ( */}
-              <IconButton
-                icon={<EditIcon />}
-                variant="ghost"
-                _hover={{ color: "blue", bgColor: "transparent" }}
-                color="black"
-                aria-label="Edit"
-                size="md"
-                onClick={() => {
-                  setIsUpdateDialogOpen(true);
-                }}
-              />
-              {/* )} */}
-            </Flex>
+            {user && (
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                _groupHover={{ opacity: 1 }} // Visible on hover
+              >
+                <IconButton
+                  icon={<DeleteIcon />}
+                  variant="ghost"
+                  _hover={{ color: "black", bgColor: "transparent" }}
+                  color="red"
+                  aria-label="Delete"
+                  size="md"
+                  onClick={() => {
+                    setIsDeleteDialogOpen(true);
+                  }}
+                />
+                {/* {userType === "ngo" && ( */}
+                <IconButton
+                  icon={<EditIcon />}
+                  variant="ghost"
+                  _hover={{ color: "blue", bgColor: "transparent" }}
+                  color="black"
+                  aria-label="Edit"
+                  size="md"
+                  onClick={() => {
+                    setIsUpdateDialogOpen(true);
+                  }}
+                />
+                {/* )} */}
+              </Flex>
+            )}
+
             {/* )} */}
           </Flex>
 

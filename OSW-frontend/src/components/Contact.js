@@ -8,8 +8,10 @@ import sideImg from "../img/contact.svg";
 // import TwitterIcon from "@mui/icons-material/Twitter";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 import SecFooter from "./SecFooter";
+import { useNavigate } from "react-router-dom";
 
 function Contact() {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -91,6 +93,15 @@ function Contact() {
           </button>
           <button type="button" className="hash btn btn-secondary">
             #OpenSourceWeekend
+          </button>
+          <button
+            type="button"
+            className="hash btn btn-secondary"
+            onClick={() => {
+              navigate("/contact-us/send-message");
+            }}
+          >
+            Conact Us
           </button>
         </div>
         <div className="side2 side">

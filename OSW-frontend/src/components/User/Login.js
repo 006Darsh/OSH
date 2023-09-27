@@ -55,6 +55,10 @@ const Login = () => {
         return;
       }
       if (password !== confirmPassword) {
+        toast("PassWord Does not match!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Password and Confirm-Password does not match");
         return;
       }
@@ -148,11 +152,11 @@ const Login = () => {
         }
       } catch (error) {
         console.log(response);
-        toast("Error Occured!", {
+        toast(error, {
           position: "top-right",
           backgroundColor: "red",
         });
-        console.error("Error in Login:", response.message);
+        console.error("Error in Login:", response);
       }
     }
   };
@@ -368,6 +372,7 @@ const Login = () => {
           }}
         >
           {action}
+          <ToastContainer />
         </button>
         {/* <div></div> */}
         {/* </div> */}

@@ -37,6 +37,11 @@ const ViewProfile = () => {
       const decodedToken = jwt_decode(token);
       setUserId(decodedToken._id);
       setUserType(decodedToken.type);
+    } else {
+      const token = localStorage.getItem("adminAuthToken");
+      const decodedToken = jwt_decode(token);
+      setUserId(decodedToken._id);
+      setUserType(decodedToken.type);
     }
   }, []);
   const handleImageChange = (e) => {
@@ -310,9 +315,11 @@ const ViewProfile = () => {
           <div className="profile-username">
             <p>{user_name}</p>
           </div>
-          <span className="edit-button" onClick={openModal}>
-            <i class="fa-solid fa-pen-to-square"></i>
-          </span>
+          {userType === "user" && (
+            <span className="edit-button" onClick={openModal}>
+              <i class="fa-solid fa-pen-to-square"></i>
+            </span>
+          )}
         </div>
       </div>
       {isProfileOpen && (

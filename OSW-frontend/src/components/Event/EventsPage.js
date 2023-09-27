@@ -25,6 +25,7 @@ const EventsPage = (props) => {
 
             // Base64-decode and parse the payload part (the second part)
             const payload = JSON.parse(atob(tokenParts[1]));
+            console.log(payload);
             setUser(payload); // Set user state with decoded data
           } catch (error) {
             // Handle decoding error (e.g., token is invalid)
@@ -213,20 +214,24 @@ const EventsPage = (props) => {
 
             <div className="eve-det-btn">
               {user && (
-                <button
-                  className="btn btn-primary custom-btn1"
-                  onClick={
-                    !event.attendees.includes(user._id)
-                      ? RegisterForEvent
-                      : null
-                  }
-                >
-                  <p className="btn-text">
-                    {!event.attendees.includes(user._id)
-                      ? "REGISTER"
-                      : "REGISTERED"}
-                  </p>
-                </button>
+                <>
+                  {event.hosted_by_user !== user.name && (
+                    <button
+                      className="btn btn-primary custom-btn1"
+                      onClick={
+                        !event.attendees.includes(user._id)
+                          ? RegisterForEvent
+                          : null
+                      }
+                    >
+                      <p className="btn-text">
+                        {!event.attendees.includes(user._id)
+                          ? "REGISTER"
+                          : "REGISTERED"}
+                      </p>
+                    </button>
+                  )}
+                </>
               )}
 
               {/* <button className="btn btn-secondary custom-btn2 ">

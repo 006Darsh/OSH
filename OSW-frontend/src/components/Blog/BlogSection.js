@@ -265,29 +265,31 @@ const MediaSection = ({ userType }) => {
 
           {/* {userType === "ngo" && ( */}
           {/* )} */}
-          <div
-            style={{
-              marginLeft: "80vw",
-              marginTop: "-6vh",
-              marginBottom: "5vh",
-            }}
-          >
-            <Button
-              onClick={() => navigate("/post-blogs")}
-              bg="white"
-              color="teal"
-              boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
-              //   _hover={{ boxShadow: "0px 4px 6px teal" }}
-              //   _active={{ boxShadow: "0px 2px 4px" }}
+          {user && (
+            <div
+              style={{
+                marginLeft: "80vw",
+                marginTop: "-6vh",
+                marginBottom: "5vh",
+              }}
             >
-              {/* Create New */}
-              {!isLSmallScreen ? (
-                "Create New"
-              ) : (
-                <IconButton as={AddIcon} boxSize={6} bg={"transparent"} />
-              )}
-            </Button>
-          </div>
+              <Button
+                onClick={() => navigate("/post-blogs")}
+                bg="white"
+                color="teal"
+                boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+                //   _hover={{ boxShadow: "0px 4px 6px teal" }}
+                //   _active={{ boxShadow: "0px 2px 4px" }}
+              >
+                {/* Create New */}
+                {!isLSmallScreen ? (
+                  "Create New"
+                ) : (
+                  <IconButton as={AddIcon} boxSize={6} bg={"transparent"} />
+                )}
+              </Button>
+            </div>
+          )}
           {/* </Flex> */}
           <Flex justifyContent={"center"}>
             <Flex flexWrap="wrap" justifyContent={"center"} gap={2}>
