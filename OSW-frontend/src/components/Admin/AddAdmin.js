@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./AdminLogin.css";
 import email_icon from "../..//img/email.png";
 import password_icon from "../../img/password.png";
 import { useNavigate } from "react-router-dom";
 import { hostname } from "../../hostname";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddAdmin = () => {
   const [email, setEmail] = useState("");
@@ -27,11 +29,23 @@ const AddAdmin = () => {
         const data = await response.json();
         // console.log(token);
         navigate("/", { replace: true });
+        toast(data.message, {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         console.log("Admin Added successful", data);
       } else {
-        console.error("Login failed");
+        toast("Error Occured!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
+        throw new Error("Error Adding Admin");
       }
     } catch (error) {
+      toast("Error Occured!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.error("An error occurred during login", error);
     }
   };
@@ -87,6 +101,7 @@ const AddAdmin = () => {
           }}
         >
           Add
+          <ToastContainer />{" "}
         </button>
       </div>
     </div>

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./EventForm.css";
-import { hostname } from "../hostname";
+import { hostname } from "../../hostname";
 import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function EventRegistrationForm(props) {
   const [formData, setFormData] = useState({
     event_name: "",
@@ -230,14 +233,26 @@ function EventRegistrationForm(props) {
 
       if (response.ok) {
         const data = await response.json();
+        toast("Event Rgistered SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         console.log("Event created successfully:", data.Event);
         // Reset the form or perform any other actions
       } else {
         const errorData = await response.json();
+        toast("Error Adding Event!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Failed to create event:", errorData);
         // Handle error or display an error message to the user
       }
     } catch (error) {
+      toast("Error Adding Event!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.error("Error creating event:", error);
       // Handle network errors or other exceptions
     }
@@ -727,7 +742,10 @@ function EventRegistrationForm(props) {
           </label>
         </div>
 
-        <button type="submit">Create Event</button>
+        <button type="submit">
+          Create Event
+          <ToastContainer />
+        </button>
       </form>
     </div>
   );

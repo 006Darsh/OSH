@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./EventsPage.css";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./Navbar";
-import { hostname } from "../hostname";
+import Navbar from "../Navbar";
+import { hostname } from "../../hostname";
 
 const EventsPage = (props) => {
   // const navigate = useNavigate();

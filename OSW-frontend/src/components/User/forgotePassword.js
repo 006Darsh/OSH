@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-
-import password_icon from "../img/password.png";
-import { hostname } from "../hostname";
+import password_icon from "../../img/password.png";
+import { hostname } from "../../hostname";
 const ForgetPassword = () => {
   const [confirmPass, setConfirm_Pass] = useState();
   const [password, setPassword] = useState();

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./AdminLogin.css";
 import email_icon from "../..//img/email.png";
 import password_icon from "../../img/password.png";
 import { useNavigate } from "react-router-dom";
 import { hostname } from "../../hostname";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -24,13 +26,25 @@ const AdminLogin = () => {
         data = await response.json();
         const { result } = data;
         localStorage.setItem("adminAuthToken", result);
+        toast("Login SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         // console.log(token);
         navigate("/", { replace: true });
         console.log("Login successful", data);
       } else {
-        console.error("Login failed",data);
+        toast(data.message, {
+          position: "top-right",
+          backgroundColor: "red",
+        });
+        console.error("Login failed", data);
       }
     } catch (error) {
+      toast("Error Occured during Login.", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.error("An error occurred during login", error);
     }
   };
@@ -69,7 +83,14 @@ const AdminLogin = () => {
         </div>
 
         <div className="forgot-password">
-          Forgot Password? <span onClick={()=>{navigate("/adminforgotpassword");}}>Click Here!</span>
+          Forgot Password?{" "}
+          <span
+            onClick={() => {
+              navigate("/adminforgotpassword");
+            }}
+          >
+            Click Here!
+          </span>
         </div>
 
         <button
@@ -80,6 +101,7 @@ const AdminLogin = () => {
           }}
         >
           Login
+          <ToastContainer />
         </button>
       </div>
     </div>

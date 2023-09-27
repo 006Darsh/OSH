@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./Speakers/Speakers.css";
-import Navbar from "./Navbar";
-import SpeakersTile from "./Speakers/SpeakersTile";
+import "./Speakers.css";
+import Navbar from "../Navbar";
+import SpeakersTile from "./SpeakersTile";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SecFooter from "./SecFooter";
-import Footer from "./Footer";
-import { hostname } from "../hostname";
+import SecFooter from "../SecFooter";
+import Footer from "../Footer";
+import { hostname } from "../../hostname";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/js/bootstrap.bundle.min.js.map";
 
@@ -121,6 +121,10 @@ export default function Speakers() {
         })
         .catch((err) => {
           console.log(err);
+          toast("Error ading the picture!", {
+            position: "top-right",
+            backgroundColor: "#0E8388",
+          });
         });
     } else {
       return;
@@ -166,7 +170,7 @@ export default function Speakers() {
         setsocsociallinksError("Social Links  are required.");
       }
       // Prevent form submission
-      toast("Error Occured!", {
+      toast("Add All fileds!", {
         position: "top-right",
         backgroundColor: "#0E8388",
       });
@@ -203,10 +207,11 @@ export default function Speakers() {
             position: "top-right",
             backgroundColor: "#0E8388",
           });
+          setShowModal(false);
         } else {
           // Error occurred while adding a team member, handle the error message
           console.error("Error adding Speaker:", data.message);
-          toast("Error Occured!", {
+          toast(data.message, {
             position: "top-right",
             backgroundColor: "#0E8388",
           });
@@ -296,6 +301,10 @@ export default function Speakers() {
         });
 
         if (!response.ok) {
+          toast(response.json().message, {
+            position: "top-right",
+            backgroundColor: "#0E8388",
+          });
           throw new Error("Network response was not ok");
         }
 
@@ -304,6 +313,10 @@ export default function Speakers() {
         fetchSpeakers();
         // Navigate to the "/speakers" route
       } catch (error) {
+        toast("Error Occured!", {
+          position: "top-right",
+          backgroundColor: "#0E8388",
+        });
         console.error("Error deleting speaker:", error);
       }
     }
@@ -313,7 +326,7 @@ export default function Speakers() {
     <div className="speakers">
       <Navbar />
       <div className="speakersheader">
-      <span style={{ color: '#0E8388' }}>Our</span> Speakers
+        <span style={{ color: "#0E8388" }}>Our</span> Speakers
       </div>
       {user && user.type === "admin" && (
         <div

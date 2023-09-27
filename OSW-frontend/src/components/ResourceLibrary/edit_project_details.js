@@ -55,7 +55,7 @@ export default function EditResourceLibrary({ project, isOpen }) {
       // closeModal();
       toast("Enter values Properly!", {
         position: "top-right",
-        backgroundColor: "#0E8388",
+        backgroundColor: "green",
       });
       return;
     }
@@ -84,14 +84,15 @@ export default function EditResourceLibrary({ project, isOpen }) {
           // setProjectTags("");
           toast("Successfully Submitted!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "green",
           });
+          
           closeModal();
         } else {
           console.error("Error adding Project:", data.message);
           toast("Error Occurred!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "red",
           });
         }
       })
@@ -99,7 +100,7 @@ export default function EditResourceLibrary({ project, isOpen }) {
         console.error("Error:", error);
         toast("Error Occurred!", {
           position: "top-right",
-          backgroundColor: "#0E8388",
+          backgroundColor: "red",
         });
       });
   };

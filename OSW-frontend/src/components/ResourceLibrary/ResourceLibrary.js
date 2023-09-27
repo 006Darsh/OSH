@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDocker, faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faEdit,
-  faGreaterThan,
   faTrash,
-  // faLessThan,
 } from "@fortawesome/free-solid-svg-icons";
 import TruncateText from "../TruncateText";
 // import ResourceLibraryProfile from "./ResourceLibraryProfile";
@@ -119,23 +117,23 @@ export default function ResourceLibrary() {
   const indexOfFirstProject = indexOfLastProject - rowsPerPage;
   const currentProjects = getprojects.slice(indexOfFirstProject, indexOfLastProject);
 
-  const handleSort = () => {
-    const sortedProjects = [...getprojects].sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
+  // const handleSort = () => {
+  //   const sortedProjects = [...getprojects].sort((a, b) => {
+  //     const nameA = a.name.toLowerCase();
+  //     const nameB = b.name.toLowerCase();
 
-      if (nameA < nameB) {
-        return sortOrder === "asc" ? -1 : 1;
-      }
-      if (nameA > nameB) {
-        return sortOrder === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+  //     if (nameA < nameB) {
+  //       return sortOrder === "asc" ? -1 : 1;
+  //     }
+  //     if (nameA > nameB) {
+  //       return sortOrder === "asc" ? 1 : -1;
+  //     }
+  //     return 0;
+  //   });
 
-    setGetProjects(sortedProjects);
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  };
+  //   setGetProjects(sortedProjects);
+  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  // };
   const handleEditButtonClick = (project) => {
     console.log(project);
     setEditProject(project);
@@ -154,17 +152,29 @@ export default function ResourceLibrary() {
     })
       .then((response) => {
         if (!response.ok) {
+          toast("Error Deleting a Project", {
+            position: "top-right",
+            backgroundColor: "red",
+          });
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
+        toast("Deleted SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         // Handle the successful response
         console.log("Event deleted successfully:", data);
         fetchProjects();
         // Add any further actions you want to take upon successful deletion
       })
       .catch((error) => {
+        toast("Error Deleting a Project", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         // Handle errors during the fetch
         console.error("Error deleting event:", error);
       });
@@ -203,7 +213,7 @@ export default function ResourceLibrary() {
       // Prevent form submission
       toast("Error Occured!", {
         position: "top-right",
-        backgroundColor: "#0E8388",
+        backgroundColor: "red",
       });
       return;
     }
@@ -241,14 +251,15 @@ export default function ResourceLibrary() {
           // Add code to close the modal here if needed
           toast("Successfully Submited!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "green",
           });
+          setIsModalOpen(false);
         } else {
           // Error occurred while adding a team member, handle the error message
           console.error("Error adding Project:", data.message);
           toast("Error Occured!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "red",
           });
         }
       })
@@ -257,7 +268,7 @@ export default function ResourceLibrary() {
         console.error("Error:", error);
         toast("Error Occured!", {
           position: "top-right",
-          backgroundColor: "#0E8388",
+          backgroundColor: "red",
         });
       });
   };

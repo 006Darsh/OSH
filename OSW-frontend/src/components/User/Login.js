@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
-import user_icon from "../img/person.png";
-import email_icon from "../img/email.png";
-import password_icon from "../img/password.png";
+import user_icon from "../../img/person.png";
+import email_icon from "../../img/email.png";
+import password_icon from "../../img/password.png";
 import { GoogleLogin } from "react-google-login";
-import eye_icon from "../img/show.png";
-import cancel_eye_icon from "../img/hide.png";
+import eye_icon from "../../img/show.png";
+import cancel_eye_icon from "../../img/hide.png";
 import { useNavigate } from "react-router-dom";
-import { hostname } from "../../src/hostname";
+import { hostname } from "../../hostname";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const clientId =
   "574757039734-2hfvakv45d24o82mp3r80akqri2b70mq.apps.googleusercontent.com";
@@ -45,6 +47,10 @@ const Login = () => {
   const handleSubmit = async (actions) => {
     if (actions === "Sign Up") {
       if (!username || !email || !password || !confirmPassword) {
+        toast("Fill All Details!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Please fill all the details");
         return;
       }
@@ -71,19 +77,36 @@ const Login = () => {
         });
 
         if (response.ok) {
+          toast("SignUp Successful!", {
+            position: "top-right",
+            backgroundColor: "green",
+          });
           const data = await response.json();
 
           const { result } = data;
           localStorage.setItem("userAuthToken", result);
           navigate("/", { replace: true });
         } else {
+          const data = await response.json();
+          toast(data.message, {
+            position: "top-right",
+            backgroundColor: "red",
+          });
           throw new Error("Error occurred during registration");
         }
       } catch (error) {
+        toast(error, {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Error in SignUp:", response.message);
       }
     } else {
       if (!email || !password) {
+        toast("Fill All Details!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Please fill all the details");
         return;
       }
@@ -105,16 +128,30 @@ const Login = () => {
         });
 
         if (response.ok) {
+          toast("Login SuccessFul!", {
+            position: "top-right",
+            backgroundColor: "green",
+          });
           const data = await response.json();
 
           const { result } = data;
           localStorage.setItem("userAuthToken", result);
           navigate("/", { replace: true });
         } else {
+          const data = await response.json();
+
+          toast(data.message, {
+            position: "top-right",
+            backgroundColor: "red",
+          });
           throw new Error("Error occurred during registration");
         }
       } catch (error) {
         console.log(response);
+        toast("Error Occured!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Error in Login:", response.message);
       }
     }

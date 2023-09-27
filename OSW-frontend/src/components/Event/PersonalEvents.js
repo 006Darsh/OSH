@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./Events.css";
-import Meetup from "./home-comp/Meetup";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import SecFooter from "./SecFooter";
-import { hostname } from "../hostname";
+import Meetup from "../home-comp/Meetup";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
+import SecFooter from "../SecFooter";
+import { hostname } from "../../hostname";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const Events = () => {
+const PersonalEvents = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [events, setEvents] = useState([]);
-  const [Token, setToken] = useState("");
   const rowsPerPageOptions = [5, 10, 15]; // Customize the rows per page options as needed
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
   const navigate = useNavigate();
@@ -44,15 +43,15 @@ const Events = () => {
         const token = localStorage.getItem("userAuthToken");
 
         if (token) {
+          console.log(token);
           try {
             // Split the token into its parts
             const tokenParts = token.split(".");
 
             // Base64-decode and parse the payload part (the second part)
             const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setToken(token);
-            await setUser(payload); // Set user state with decoded data
+            console.log(payload);
+            setUser(payload); // Set user state with decoded data
           } catch (error) {
             // Handle decoding error (e.g., token is invalid)
             console.error("Error decoding JWT token:", error);
@@ -68,7 +67,6 @@ const Events = () => {
             // Base64-decode and parse the payload part (the second part)
             const payload = JSON.parse(atob(tokenParts[1]));
             console.log(payload.type);
-            setToken(localStorage.getItem("adminAuthToken"));
             setUser(payload); // Set user state with decoded data
           } catch (error) {
             // Handle decoding error (e.g., token is invalid)
@@ -104,46 +102,7 @@ const Events = () => {
   };
   const handleEditClick = (event) => {
     console.log(event._id);
-    navigate(`/events/edit-Event/${event._id}`, { state: { event } });
-  };
-  const handleCreateClick = () => {
-    console.log(user, Token);
-    navigate(`/events/create-Event`, { state: { user, Token } });
-  };
-  const handlePersonalEevntsClick = async () => {
-    let options;
-
-    if (user && user.type === "user") {
-      console.log(localStorage.getItem("userAuthToken"));
-      options = {
-        "Content-Type": "application/json",
-        authorization: localStorage.getItem("userAuthToken"),
-      };
-    } else {
-      options = {
-        "Content-Type": "application/json",
-        authorization: localStorage.getItem("adminAuthToken"),
-      };
-    }
-    try {
-      const response = await fetch(`${hostname}/personal-events`, {
-        method: "GET",
-        headers: options,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setEvents(data.eventsData);
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to fetch events:", errorData);
-        // Handle the error or display an error message to the user
-      }
-    } catch (error) {
-      console.error("Error fetching events:", error);
-      // Handle the error or display an error message to the user
-    }
+    navigate(`/events/edit-Event/${event._id}`);
   };
   const handleDeleteClick = (eventId) => {
     // Make an HTTP DELETE request to delete the event
@@ -172,13 +131,11 @@ const Events = () => {
       });
   };
 
-  const fetchData = async () => {
+  const fetchData = async (options) => {
     try {
-      const response = await fetch(`${hostname}/events`, {
+      const response = await fetch(`${hostname}/personal-events`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers:options,
       });
 
       if (response.ok) {
@@ -196,11 +153,23 @@ const Events = () => {
     }
   };
   useEffect(() => {
-    fetchData(); // Call the fetchData function when the component mounts
-  }, []);
-  const handleAllEevntsClick = () => {
-    fetchData();
-  };
+    let options;
+
+    if (user && user.type === "user") {
+      console.log(localStorage.getItem("userAuthToken"));
+      options = {
+        "Content-Type": "application/json",
+        authorization: localStorage.getItem("userAuthToken"),
+      };
+    } else {
+      options = {
+        "Content-Type": "application/json",
+        authorization: localStorage.getItem("adminAuthToken"),
+      };
+    }
+    fetchData(options); // Call the fetchData function when the component mounts
+  }, [user]);
+
   return (
     <div className="eventpg">
       <Navbar />
@@ -209,46 +178,27 @@ const Events = () => {
       <b><p className="eventpg-head">Our <span style={{ color: '#0E8388' }}>Events</span></p></b>
       <p className='eventpg-text'>Questions? Please contact <span style={{ color: '#0E8388' }}>connectwithaurapp@gmail.com</span></p>
       </div> */}
-        <div className="eventpg-meetup">
-          <Meetup />
-        </div>
       </div>
       <div className="past-events">
         <p className="past-events-title">Directory of past events</p>
         <p className="past-events-text">
           Events are listed in reverse chronological order by date.
         </p>
-        {user && (
-          <>
-            <button
-              className="all-events-button"
-              onClick={handleAllEevntsClick}
-            >
-              All Events
-            </button>
-            <button
-              className="personal-events-button"
-              onClick={handlePersonalEevntsClick}
-            >
-              Personal Events
-            </button>
-          </>
-        )}
         <table className="event-table">
           <thead>
             <tr>
               <th>
-                {/* <span onClick={handleSort}> */}
-                Event Name
-                {/* {sortOrder === "asc" ? " ↓" : " ↑"} */}
-                {/* </span> */}
+                <span onClick={handleSort}>
+                  Event Name
+                  {sortOrder === "asc" ? " ↓" : " ↑"}
+                </span>
               </th>
               <th>Date</th>
               <th>Type</th>
               <th>See More</th>
+              <th>Edit Project</th>
               {user && user.type === "admin" && (
                 <>
-                  <th>Edit Project</th>
                   <th>Delete Project</th>
                 </>
               )}
@@ -280,21 +230,21 @@ const Events = () => {
 
                   {/* </button> */}
                 </td>
+                <td className="edit-project-buttons">
+                  <div className="editprojectbutton">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleEditClick(event)}
+                    >
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="edit"
+                      ></FontAwesomeIcon>
+                    </button>
+                  </div>
+                </td>
                 {user && user.type === "admin" && (
                   <>
-                    <td className="edit-project-buttons">
-                      <div className="editprojectbutton">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => handleEditClick(event)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEdit}
-                            className="edit"
-                          ></FontAwesomeIcon>
-                        </button>
-                      </div>
-                    </td>
                     <td className="delete-project-buttons">
                       <div className="deleteprojectbutton">
                         <button
@@ -314,15 +264,8 @@ const Events = () => {
             ))}
 
             <tr>
-              <td
-                colSpan="10"
-                style={{
-                  backgroundColor: "white",
-                  borderColor: "white",
-                  borderStyle: "none",
-                }}
-              >
-                <div className="event-pagination">
+              <td colSpan="4">
+                <div className="pagination">
                   {/* Number of rows per page select */}
                   <div className="pagination-con">
                     <label className="rpp" htmlFor="rowsPerPage">
@@ -349,7 +292,7 @@ const Events = () => {
                     >
                       {prev}
                     </button>
-                    <p style={{ fontSize: "13px", paddingTop: "10px" }}>
+                    <p style={{ fontSize: "13px", paddingTop: "5px" }}>
                       Page {currentPage} of {totalPages}
                     </p>
                     {/* Pagination controls */}
@@ -367,20 +310,6 @@ const Events = () => {
             </tr>
           </tbody>
         </table>
-        {user && (
-          <>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-bs-dismiss
-                onClick={handleCreateClick}
-              >
-                Create Event
-              </button>
-            </div>
-          </>
-        )}
       </div>
       <p className="eventpg-text">
         <span style={{ color: "#0E8388", fontSize: "30px", fontWeight: "500" }}>
@@ -395,4 +324,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default PersonalEvents;

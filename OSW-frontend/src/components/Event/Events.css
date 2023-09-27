@@ -164,7 +164,7 @@ tr:nth-child(odd) {
 
 .pagination-con {
   /* flex: 0; */
-  width: 90%!important;
+  width: 90% !important;
   display: flex;
   width: auto;
   padding-right: 50px;

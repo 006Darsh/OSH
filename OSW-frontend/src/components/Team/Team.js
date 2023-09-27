@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./Team/Team.css";
-import TeamTile from "./Team/TeamTile";
-import toolbar from "../img/toolbar.png";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import { hostname } from "../hostname";
+import "./Team.css";
+import TeamTile from "./TeamTile";
+import toolbar from "../../img/toolbar.png";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
+import { hostname } from "../../hostname";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -215,16 +215,16 @@ const Team = () => {
           });
 
           fetchTeamMembers();
-
+          setShowModal(false);
           toast("Successfully Submited!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "green",
           });
         } else {
           console.error("Error adding team member:", data.message);
           toast("Error Occured!", {
             position: "top-right",
-            backgroundColor: "#0E8388",
+            backgroundColor: "red",
           });
         }
       })
@@ -232,7 +232,7 @@ const Team = () => {
         console.error("Error:", error);
         toast("Error Occured!", {
           position: "top-right",
-          backgroundColor: "#0E8388",
+          backgroundColor: "red",
         });
       });
   };
@@ -251,13 +251,25 @@ const Team = () => {
         });
 
         if (!response.ok) {
+          toast("Error Deleting a team member", {
+            position: "top-right",
+            backgroundColor: "red",
+          });
           throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
+        toast("Deleted SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         console.log("Speaker deleted successfully:", data);
         fetchTeamMembers();
       } catch (error) {
+        toast("Error Deleting!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.error("Error deleting speaker:", error);
       }
     }
@@ -273,7 +285,7 @@ const Team = () => {
         <Navbar />
         <div className="teamheader">
           <div className="teamheadertitle">
-            <span style={{ color: '#0E8388' }}>Our</span> Team
+            <span style={{ color: "#0E8388" }}>Our</span> Team
           </div>
           <div className="headertext">
             <p>

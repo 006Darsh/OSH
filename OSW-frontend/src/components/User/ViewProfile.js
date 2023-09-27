@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./ViewProfile.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import profile_img from "../img/profile-img.jpg";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
+import profile_img from "../../img/profile-img.jpg";
 import jwt_decode from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
-import { hostname } from "../hostname";
+import { hostname } from "../../hostname";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ViewProfile = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -82,9 +84,7 @@ const ViewProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(
-          `${hostname}/user/profile/${userId}`
-        );
+        const response = await fetch(`${hostname}/user/profile/${userId}`);
         const data = await response.json();
         if (data.success) {
           setProfileData(data.data);
@@ -100,9 +100,7 @@ const ViewProfile = () => {
     const fetchPic = async () => {
       console.log(userId);
       try {
-        const response = await fetch(
-          `${hostname}/user/profile-pic/${userId}`
-        );
+        const response = await fetch(`${hostname}/user/profile-pic/${userId}`);
 
         const res = await response.json();
         console.log(res);
@@ -176,13 +174,26 @@ const ViewProfile = () => {
       });
 
       if (response.ok) {
+        toast("Profile Added SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         console.log(response);
 
         navigate("/profile", { replace: true });
       } else {
+        toast("Error Occured!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         throw new Error("Error occurred during registration");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast("Error Occured!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
+    }
   };
 
   const handleverifyemail = async (e) => {
@@ -213,14 +224,27 @@ const ViewProfile = () => {
       );
 
       if (response.ok) {
+        toast("Otp sent SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         setShowOtpButton(false);
         setShowotpInput(true);
         setShowVerifyButton(true);
       } else {
         const errorData = await response.json();
+        toast("Error Occured!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.log(errorData);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast("Error Occured!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
+    }
   };
   const VerifyEmail = async (e) => {
     e.preventDefault();
@@ -245,18 +269,29 @@ const ViewProfile = () => {
       );
 
       if (response.ok) {
+        toast("Verified SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         setShowotpInput(false);
         setShowVerifyButton(false);
         setShowOtpButton(true);
         setVerfied(true);
       } else {
         const errorData = await response.json();
+        toast("Error Occured.Try Again!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.log(errorData);
         throw new Error("Failed to verify. Please try again later.");
       }
     } catch (error) {
       console.log(error);
-      console.log(12);
+      toast("Error Occured.Try Again!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       return; // Prevent further execution
     }
   };
@@ -329,7 +364,7 @@ const ViewProfile = () => {
                 {userType === "user" && showOtpButton && (
                   <>
                     {is_verified ? (
-                      <span style={{color:"green"}}>&#10004;</span>
+                      <span style={{ color: "green" }}>&#10004;</span>
                     ) : (
                       <button onClick={handleverifyemail}>Verify</button>
                     )}
@@ -384,6 +419,7 @@ const ViewProfile = () => {
                 onClick={submitHandler}
               >
                 Submit
+                <ToastContainer />
               </button>
             </form>
           </div>

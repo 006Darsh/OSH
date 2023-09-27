@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./EventForm.css";
-import { hostname } from "../hostname";
+import { hostname } from "../../hostname";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function EventEditForm() {
   const Id = useParams();
   const [event, setEvent] = useState();
@@ -193,29 +196,29 @@ function EventEditForm() {
     // While loading, you can show a loading indicator or message
     return <div>Loading...</div>;
   }
-  const handleImageChange = (e) => {
-    const pics = e.target.files[0];
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "darsh-cloud");
-      fetch("https://api.cloudinary.com/v1_1/darsh-cloud/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setEventPoster(data.url.toString());
-          console.log(data.url.toString());
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      return;
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const pics = e.target.files[0];
+  //   if (pics.type === "image/jpeg" || pics.type === "image/png") {
+  //     const data = new FormData();
+  //     data.append("file", pics);
+  //     data.append("upload_preset", "chat-app");
+  //     data.append("cloud_name", "darsh-cloud");
+  //     fetch("https://api.cloudinary.com/v1_1/darsh-cloud/image/upload", {
+  //       method: "post",
+  //       body: data,
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setEventPoster(data.url.toString());
+  //         console.log(data.url.toString());
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     return;
+  //   }
+  // };
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     const newValue = value;
@@ -300,13 +303,11 @@ function EventEditForm() {
     }
   };
 
-
   const meetingModeOptions = [
     { value: "", label: "Select Meeting Mode" },
     { value: "Online", label: "Online" },
     { value: "Offline", label: "Offline" },
   ];
-
 
   const tagOptions = [
     // { value: "", label: "Select Tag" },
@@ -385,16 +386,28 @@ function EventEditForm() {
 
       if (response.ok) {
         const data = await response.json();
+        toast("Event Created SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         console.log("Event created successfully:", data.Event);
         navigate(`/event/details/${Id.id}`, { replace: true });
         // Reset the form or perform any other actions
       } else {
         const errorData = await response.json();
         console.error("Failed to create event:", errorData.message);
+        toast("Error Editing Event", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         throw new Error(errorData.message);
         // Handle error or display an error message to the user
       }
     } catch (error) {
+      toast("Error Editing event", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.error("Error creating event:", error);
       // Handle network errors or other exceptions
     }
@@ -867,7 +880,10 @@ function EventEditForm() {
           </label>
         </div>
 
-        <button type="submit">Create Event</button>
+        <button type="submit">
+          Create Event
+          <ToastContainer />
+        </button>
       </form>
     </div>
   );

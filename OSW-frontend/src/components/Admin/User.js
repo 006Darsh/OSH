@@ -7,9 +7,11 @@ import { hostname } from "../../hostname";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const User = () => {
-  const [sortOrder, setSortOrder] = useState("asc");
+  // const [sortOrder, setSortOrder] = useState("asc");
   const [user, setUsers] = useState([]);
   const navigate = useNavigate();
   const rowsPerPageOptions = [5, 10, 15]; // Customize the rows per page options as needed
@@ -33,28 +35,28 @@ const User = () => {
   const indexOfLastEvent = currentPage * rowsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - rowsPerPage;
   const currentEvents = user.slice(indexOfFirstEvent, indexOfLastEvent);
- 
+
   const viewProfile = (userId) => {
     navigate("/profile", { state: { userId } });
   };
 
-  const handleSort = () => {
-    const sortedEvents = [...user].sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
+  // const handleSort = () => {
+  //   const sortedEvents = [...user].sort((a, b) => {
+  //     const nameA = a.name.toLowerCase();
+  //     const nameB = b.name.toLowerCase();
 
-      if (nameA < nameB) {
-        return sortOrder === "asc" ? -1 : 1;
-      }
-      if (nameA > nameB) {
-        return sortOrder === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+  //     if (nameA < nameB) {
+  //       return sortOrder === "asc" ? -1 : 1;
+  //     }
+  //     if (nameA > nameB) {
+  //       return sortOrder === "asc" ? 1 : -1;
+  //     }
+  //     return 0;
+  //   });
 
-    setUsers(sortedEvents);
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  };
+  //   setUsers(sortedEvents);
+  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  // };
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${hostname}/users`, {
@@ -81,30 +83,41 @@ const User = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
- const deleteUser = async (userId) => {
-   try {
-     const response = await fetch(`${hostname}/delete/user/${userId}`, {
-       method: "DELETE",
-       headers: {
-         "Content-Type": "application/json",
-         authorization: localStorage.getItem("adminAuthToken"), // Add your authentication token here
-       },
-     });
+  const deleteUser = async (userId) => {
+    try {
+      const response = await fetch(`${hostname}/delete/user/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("adminAuthToken"), // Add your authentication token here
+        },
+      });
 
-     const data = await response.json();
+      const data = await response.json();
 
-     if (!response.ok) {
-       throw new Error(data.message);
-     }
-
-     console.log("User deleted successfully:", data.message);
-     fetchUsers();
-     // Handle success here
-   } catch (error) {
-     console.error("Error deleting user:", error.message);
-     // Handle error here
-   }
- };
+      if (!response.ok) {
+        toast(data.message, {
+          position: "top-right",
+          backgroundColor: "red",
+        });
+        throw new Error(data.message);
+      }
+      toast("User Deletd SuccessFully!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
+      console.log("User deleted successfully:", data.message);
+      fetchUsers();
+      // Handle success here
+    } catch (error) {
+      toast("Error deleting user!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
+      console.error("Error deleting user:", error.message);
+      // Handle error here
+    }
+  };
   return (
     <div className="eventpg">
       <Navbar />
@@ -115,9 +128,11 @@ const User = () => {
           <thead>
             <tr>
               <th>
-                <span onClick={handleSort}>
+                <span
+                // onClick={handleSort}
+                >
                   User Name
-                  {sortOrder === "asc" ? " ↓" : " ↑"}
+                  {/* {sortOrder === "asc" ? " ↓" : " ↑"} */}
                 </span>
               </th>
               <th>Full Name</th>
@@ -158,12 +173,13 @@ const User = () => {
                   <div className="deleteprojectbutton">
                     <button
                       className="btn btn-primary"
-                      onClick={(e) => (deleteUser(user._id))}
+                      onClick={(e) => deleteUser(user._id)}
                     >
                       <FontAwesomeIcon
                         icon={faTrash}
                         className="trash"
                       ></FontAwesomeIcon>
+                      <ToastContainer/>
                     </button>
                   </div>
                 </td>

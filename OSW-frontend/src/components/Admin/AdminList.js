@@ -6,10 +6,13 @@ import "./User.css";
 import { hostname } from "../../hostname";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Admin = () => {
-  const [sortOrder, setSortOrder] = useState("asc");
+  // const [sortOrder, setSortOrder] = useState("asc");
   const [user, setUsers] = useState([]);
+  const [adminId, setAdminId] = useState();
   const rowsPerPageOptions = [5, 10, 15]; // Customize the rows per page options as needed
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +27,23 @@ const Admin = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  useEffect(() => {
+    // Get the JWT token from wherever you have stored it (e.g., localStorage)
+    const getUser = async () => {
+      const token = localStorage.getItem("adminAuthToken");
+      if (token) {
+        try {
+          const tokenParts = token.split(".");
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload.type);
+          setAdminId(payload._id); // Set user state with decoded data
+        } catch (error) {
+          console.error("Error decoding JWT token:", error);
+        }
+      }
+    };
+    getUser();
+  }, []);
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${hostname}/admins`, {
@@ -63,6 +83,10 @@ const Admin = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        toast("Error Deleting the Admin!", {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         throw new Error(data.message);
       }
 
@@ -70,7 +94,11 @@ const Admin = () => {
       fetchUsers();
       // Handle success here
     } catch (error) {
-      console.error("Error deleting user:", error.message);
+      toast(error, {
+        position: "top-right",
+        backgroundColor: "green",
+      });
+      console.error("Error deleting user:", error);
       // Handle error here
     }
   };
@@ -81,23 +109,23 @@ const Admin = () => {
   const indexOfFirstEvent = indexOfLastEvent - rowsPerPage;
   const currentEvents = user.slice(indexOfFirstEvent, indexOfLastEvent);
 
-  const handleSort = () => {
-    const sortedEvents = [...user].sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
+  // const handleSort = () => {
+  //   const sortedEvents = [...user].sort((a, b) => {
+  //     const nameA = a.name.toLowerCase();
+  //     const nameB = b.name.toLowerCase();
 
-      if (nameA < nameB) {
-        return sortOrder === "asc" ? -1 : 1;
-      }
-      if (nameA > nameB) {
-        return sortOrder === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+  //     if (nameA < nameB) {
+  //       return sortOrder === "asc" ? -1 : 1;
+  //     }
+  //     if (nameA > nameB) {
+  //       return sortOrder === "asc" ? 1 : -1;
+  //     }
+  //     return 0;
+  //   });
 
-    setUsers(sortedEvents);
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  };
+  //   setUsers(sortedEvents);
+  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  // };
 
   return (
     <div className="eventpg">
@@ -118,20 +146,23 @@ const Admin = () => {
               <tr key={user._id}>
                 <td>{user.email}</td>
                 {user.superadmin ? <td>Yes</td> : <td>No</td>}
-                <td className="delete-project-buttons">
-                  <div className="deleteprojectbutton">
-                    <button
-                      className="btn btn-primary"
-                      onClick={(e) => deleteUser(user._id)}
-                      style={{ marginLeft: "-6.5  vw" }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        className="trash"
-                      ></FontAwesomeIcon>
-                    </button>
-                  </div>
-                </td>
+                {adminId !== user._id && (
+                  <td className="delete-project-buttons">
+                    <div className="deleteprojectbutton">
+                      <button
+                        className="btn btn-primary"
+                        onClick={(e) => deleteUser(user._id)}
+                        style={{ marginLeft: "-6.5  vw" }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="trash"
+                        ></FontAwesomeIcon>
+                        <ToastContainer />
+                      </button>
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
 

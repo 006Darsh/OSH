@@ -4,6 +4,8 @@ import email_icon from "../../img/email.png";
 import password_icon from "../../img/password.png";
 import { useNavigate } from "react-router-dom";
 import { hostname } from "../../hostname";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -35,11 +37,23 @@ const AdminForgotPassword = () => {
 
       if (response.ok) {
         setStep("otp");
+        toast("Otp sent SuccessFully!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
       } else {
         const errorData = await response.json();
+        toast(errorData.message, {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         console.log(errorData);
       }
     } catch (error) {
+      toast("Error Sending Otp!", {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.log(error);
     }
   };
@@ -51,7 +65,6 @@ const AdminForgotPassword = () => {
       const config = {
         headers: {
           "Content-type": "application/json",
-          authorization: localStorage.getItem("userAuthToken"),
         },
       };
 
@@ -70,14 +83,26 @@ const AdminForgotPassword = () => {
         localStorage.setItem("adminAuthToken", result);
         // console.log(token);
         console.log("login Successfully");
+        toast("Login SuccessFull!", {
+          position: "top-right",
+          backgroundColor: "green",
+        });
         navigate("/");
       } else {
         const errorData = await response.json();
         console.log(errorData);
+        toast(errorData.message, {
+          position: "top-right",
+          backgroundColor: "red",
+        });
         throw new Error("Failed to verify. Please try again later.");
       }
     } catch (error) {
       console.log(error);
+      toast(error, {
+        position: "top-right",
+        backgroundColor: "red",
+      });
       console.log(12);
       return; // Prevent further execution
     }
@@ -110,6 +135,7 @@ const AdminForgotPassword = () => {
               onClick={() => handleSendOtp()}
             >
               Send OTP
+              <ToastContainer />{" "}
             </button>
           </div>
         )}
@@ -128,9 +154,11 @@ const AdminForgotPassword = () => {
             <div className="button-container">
               <button className="submit-button" onClick={(e) => handleLogin()}>
                 Login
+                <ToastContainer />{" "}
               </button>
               <button className="submit-button" onClick={() => handleSendOtp()}>
                 Resend OTP
+                <ToastContainer />{" "}
               </button>
             </div>
           </div>

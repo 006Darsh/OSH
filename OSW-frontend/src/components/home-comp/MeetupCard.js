@@ -3,6 +3,8 @@ import "./MeetupCard.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MeetupCard = ({ event, onDelete }) => {
   // console.log(event);
@@ -67,6 +69,7 @@ const MeetupCard = ({ event, onDelete }) => {
       {user && user.type === "admin" && (
         <button className="deleteevent-icon" onClick={onDelete}>
           <FontAwesomeIcon icon={faTrashAlt} />
+          <ToastContainer />
         </button>
       )}
       <div className="card-text">

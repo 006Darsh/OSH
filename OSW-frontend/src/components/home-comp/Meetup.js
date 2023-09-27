@@ -3,6 +3,8 @@ import "./Meetup.css";
 import MeetupCard from "./MeetupCard";
 import { hostname } from "../../hostname";
 // import EventsPage from "../EventsPage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Meetup = () => {
   const [events, setEvents] = useState([]);
@@ -51,6 +53,10 @@ const Meetup = () => {
       })
         .then((response) => {
           if (!response.ok) {
+            toast("Error Occured!", {
+              position: "top-right",
+              backgroundColor: "red",
+            });
             throw new Error("Network response was not ok");
           }
           return response.json();
@@ -58,6 +64,10 @@ const Meetup = () => {
         .then((data) => {
           // Handle the successful response
           console.log("Event deleted successfully:", data);
+          toast("Event deleted SuccessFully!", {
+            position: "top-right",
+            backgroundColor: "green",
+          });
           fetchData();
           // Add any further actions you want to take upon successful deletion
         })
