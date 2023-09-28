@@ -38,7 +38,7 @@ const Events = () => {
   const indexOfFirstEvent = indexOfLastEvent - rowsPerPage;
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
   const [user, setUser] = useState(null);
-  const [editable, seteditable] = useState(true);
+  const [userData, setUserData] = useState(null);
   const convertDate = (date) => {
     const originalDate = new Date(date); // Parse the original date string
     const year = originalDate.getFullYear(); // Get the year
@@ -61,6 +61,25 @@ const Events = () => {
       return true;
     }
   }
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch(`${hostname}/user/profile/${user._id}`);
+        const data = await response.json();
+        if (data.success) {
+          setUserData(data.data);
+        } else {
+          console.log(data.message);
+          throw new Error("Failed to Get Profile. Please Reload");
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    if (user._id && user._id !== "") {
+      fetchUserProfile();
+    }
+  }, [user]);
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem("userAuthToken")) {
@@ -409,7 +428,9 @@ const Events = () => {
         </table>
         {user && (
           <>
-            {user.name !== undefined + " " + undefined ? (
+            {userData.profile.first_name &&
+            userData.profile.last_name &&
+            userData.profile.profile_pic ? (
               <div className="modal-footer">
                 <button
                   type="button"
