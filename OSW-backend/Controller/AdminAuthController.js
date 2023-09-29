@@ -63,11 +63,7 @@ exports.AdminLogin = async (req, res) => {
     }
     // Compare the password from the request with the encrypted password stored in the database
     let isPasswordMatch;
-    if (admin.superadmin) {
-      isPasswordMatch = await bcrypt.compare(password, admin.password);
-    } else {
-      isPasswordMatch = password === admin.password ? true : false;
-    }
+    isPasswordMatch = password === admin.password ? true : false;
 
     if (isPasswordMatch) {
       // Passwords match, generate token and send the response
