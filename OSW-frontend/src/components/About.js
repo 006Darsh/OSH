@@ -22,12 +22,7 @@ export default function About() {
           <div className="headerTextPerent container my-4 pt-5">
             <span>
               <p className="headerImgText mb-1">
-                Google Developer Group Jalandhar is inspired by GTUG/GDG Family.
-                We started our journey in Feb 2011. We try to engage student
-                developers, fresh graduates, and professionals through our hack
-                events & meetups. The motive is to create a local ecosystem of
-                programmers & hackers in and around Jalandhar. Technology
-                awareness is the main goal for the first few years of the group.
+              OSW brings together developers, enthusiasts, and open-source advocates to engage in discussions, workshops, and presentations focused on different open-source technologies. We believe in the power of open-source software to drive innovation, foster collaboration, and build a stronger tech community.
               </p>
             </span>
             <span>

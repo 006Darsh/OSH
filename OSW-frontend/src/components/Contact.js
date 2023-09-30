@@ -8,34 +8,36 @@ import sideImg from "../img/contact.svg";
 // import TwitterIcon from "@mui/icons-material/Twitter";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 import SecFooter from "./SecFooter";
-import { useNavigate } from "react-router-dom";
 
 function Contact() {
-  const navigate = useNavigate();
   return (
     <>
       <Navbar />
       <div className="contact-container">
         <div className="side1 side">
-          <h1 id="head">Contact Us</h1>
-          <p id="disc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Dignissimos ullam quod magnam necessitatibus minus, atque placeat
-            doloribus, nisi officiis reprehenderit natus ut, enim ad commodi?
-            Doloribus vel reiciendis fuga inventore doloremque non nostrum quo
-            velit porro voluptatum, fugit accusantium ex vitae, dolor, sequi rem
-            hic ipsa maxime molestiae explicabo minima! Error et iure doloribus
-            sint dolor id ullam quaerat voluptatem adipisci corporis repellendus
-            aut hic veritatis, tempore, ipsa numquam ratione quod quas similique
-            possimus ipsum sapiente! Veniam eum, rem officiis ex, explicabo
-            corrupti expedita temporibus placeat et optio incidunt pariatur
-            quibusdam. Perferendis sit dolores odit sequi, eum pariatur. Ipsa,
-            facere.
+        <p style={{fontSize: "38px", fontWeight: "600", fontFamily: '"Open Sans", sans-serif;'}}>
+           How to Get <span style={{ color: "#0E8388"}}>Involved</span>   
+          </p>          <p id="disc">
+          We welcome anyone interested in open-source technologies to join the OSW community. Here's how you can get involved:
           </p>
+          <li>
+          Participate in Events: Attend our regular OSW events where we cover various open-source topics through talks, workshops, and hands-on sessions.
+          </li>
+          <li>
+          Share Your Expertise: Propose a session or workshop to share your knowledge and experience with the community.
+          </li>
+          <li>
+          Contribute to Projects: Collaborate with other developers on open-source projects showcased during OSW events.
+          </li>
+          <li>
+          Connect with the Community: Join our online forums and social media channels to connect with like-minded individuals, ask questions, and share your insights.
+          </li>
+          <br />
+          <br />
           <p>
             Questions? Please contact{" "}
-            <a href="mailto:connectwithaurapp@gmail.com">
-              connectwithaurapp@gmail.com
+            <a href="mailto:opensourceweekend@gmail.com">
+              opensourceweekend@gmail.com
             </a>
           </p>
           <br></br>
@@ -86,22 +88,10 @@ function Contact() {
           </p>
           <br></br>
           <button type="button" className="hash btn btn-secondary">
-            #Aura
-          </button>
-          <button type="button" className="hash btn btn-secondary">
             #OWS
           </button>
           <button type="button" className="hash btn btn-secondary">
             #OpenSourceWeekend
-          </button>
-          <button
-            type="button"
-            className="hash btn btn-secondary"
-            onClick={() => {
-              navigate("/contact-us/send-message");
-            }}
-          >
-            Conact Us
           </button>
         </div>
         <div className="side2 side">

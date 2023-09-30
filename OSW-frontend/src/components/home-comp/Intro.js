@@ -25,11 +25,9 @@ const Intro = () => {
         </b>
         <p className="AppName">Open Source Weekend</p>
         <p className="intro">
-          Google Developers Group Jalandhar is an initiative to concentrate the
-          efforts of many developers in and around Punjab to learn, share and
-          get productive using the various Google products.
+        Welcome to the Open Source Weekend (OSW) repository! OSW is a community-driven initiative aimed at promoting and celebrating open-source technologies on a regular basis. Our goal is to create a platform for knowledge sharing, collaboration, and exploration of various open-source projects.
         </p>
-        <div className="box-container">
+        {/* <div className="box-container">
           <div className="rounded-grey-div-lg">
             <a
               className="div-link"
@@ -61,13 +59,13 @@ const Intro = () => {
             >
               #Aura
             </a>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
         <div className="buttons">
           <Button className="my-button" onClick={handleClickLogin}>
             Become A Member
           </Button>
-          <Button className="my-button-2" onClick={handleClickAbout}>
+          <Button className="my-button-2" onClick={handleClickAbout} style={{color: 'white'}}>
             Learn More
           </Button>
         </div>

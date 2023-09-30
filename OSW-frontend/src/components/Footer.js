@@ -7,48 +7,48 @@ export default function Footer() {
         <div className="follow">
           <span>
             <p className="footer-head">Follow Us:
-            <a href="https://www.facebook.com/" target="_blank">
+            <a href="https://www.facebook.com/OSWeekend/" target="_blank">
               <i
                 className=" fa fa-brands fa-facebook-f fa-sm mx-3"
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-            <a href="https://twitter.com/gdgjalandhar" target="_blank">
+            <a href="https://x.com/OSWeekend?t=vdey0igVTb1qNwUGe40xSw&s=08" target="_blank">
               <i
                 className="fa fa-brands fa-twitter fa-lg"
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-            <a href="https://instagra.com" target="_blank">
+            <a href="https://www.instagram.com/osweekend/" target="_blank">
               <i
                 className="fa fa-brands fa-instagram fa-lg mx-3"
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-            <a href="https://github.com/gdg-jalandhar" target="_blank">
+            <a href="https://github.com/oscf-io/OSWeekend#open-source-weekend-osw" target="_blank">
               <i
                 className="fa fa-brands fa-github fa-lg"
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-            <a href="https://www.linkedin.com/company/18048778" target="_blank">
+            <a href="https://www.linkedin.com/company/open-source-weekend/" target="_blank">
               <i
                 className="fa fa-brands fa-linkedin fa-lg mx-3"
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-            <a href="https://youtube.com" target="_blank">
+            {/* <a href="https://youtube.com" target="_blank">
               <i
                 className="fa fa-brands fa-youtube fa-lg"
                 style={{ color: "#7d7d7d" }}
               ></i>
-            </a>
-            <a href="https://medium.com" target="_blank">
+            </a> */}
+            {/* <a href="https://medium.com" target="_blank">
               <i
                 className="fa fa-brands fa-medium fa-lg mx-3"
                 style={{ color: "#7d7d7d" }}
               ></i>
-            </a>
+            </a> */}
             </p>
           </span>
         </div>
@@ -59,11 +59,11 @@ export default function Footer() {
           <span className="aboutHeading">About</span>
           <span className="aboutText">
             <p>
-              <a href="dsfdssdfsdf">GDG Jalandhar </a> <br />
-              <a href="adfs">WomenTechmakers</a> <br />
-              <a href="https://developers.google.com/programs/community/gdg/">
+              <a href="https://github.com/oscf-io">Open Source Community Foundation </a> <br />
+              <a href="https://github.com/oscf-io/CloudCaptain">Cloud Captain</a> <br />
+              {/* <a href="https://developers.google.com/programs/community/gdg/">
                 Google Developers Groups
-              </a>
+              </a> */}
             </p>
           </span>
          </div>
