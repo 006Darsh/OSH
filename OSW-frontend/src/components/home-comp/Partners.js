@@ -20,7 +20,7 @@ const Partners = () => {
             <div className="partners-content">
             <b><p className="partners-head">OSW <span style={{ color: '#0E8388' }}>Family</span></p></b>
             <p>A very big thank you to all our partners for their continued partnership.</p>
-            <p>If you’re interested in being showcased throughout , contact connectwithaurapp@gmail.com to discuss sponsorship opportunities.</p>
+            <p>If you’re interested in being showcased throughout , contact opensourceweekend@gmail.com to discuss sponsorship opportunities.</p>
             <p className="general-partners">Teams</p>
             <div className="display-partners">
                 {/* <PartnersCard/> */}

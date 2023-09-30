@@ -1,11 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import "./About.css";
 import facebook from "../img/facebook.png";
 import communityguidlinessImg from "../img/communityguidlinessImg.png";
 export default function About() {
+  
+  const navigate = useNavigate();
+const handleClickMember = () => {
+  navigate('/login')
+
+};
+
+
   return (
+
     <>
     <Navbar/>
     <div className="justify-center align-center header">
@@ -28,16 +38,16 @@ export default function About() {
             <span>
               <br />
               <div style={{display: 'flex', justifyContent: 'left'}}>
-              <button type="button" className="becomeMember">
-                <a href="https://meetup.com/GDG-Jalandhar" target="_blank">
+              <button type="button" className="becomeMember" onClick={handleClickMember}>
+                
                   Become a Member
-                </a>
+      
               </button>
-              <button type="button" className="learnMore">
-                <a href="http://g.co/dev/gdg" target="_blank">
+              {/* <button type="button" className="learnMore"> */}
+                {/* <a href="http://g.co/dev/gdg" target="_blank">
                   Learn More
                 </a>
-              </button>
+              </button> */}
               </div>
             </span>
           </div>
@@ -157,7 +167,7 @@ export default function About() {
         <div className="antiHarassmentPolicy">
           <h2 className="antiHarassmentPolicyText">AntiHarassment Policy</h2>
           <h5 className="mx-2">
-            Why do we have an official Anti-Harassment policy for App Name
+            Why do we have an official Anti-Harassment policy for OSW
             events?
           </h5>
           <span style={{ fontSize: 16 }}>
@@ -178,7 +188,7 @@ export default function About() {
             </ul>
           </span>
           <h4 className="mx-2">
-            App Name is dedicated to providing a harassment-free event
+            OSW is dedicated to providing a harassment-free event
             experience for everyone, regardless of:
           </h4>
           <span className="regarLessOf" style={{ fontSize: 19.36 }}>

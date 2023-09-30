@@ -287,8 +287,8 @@ const Team = () => {
           <div className="teamheadertitle">
             <span style={{ color: "#0E8388" }}>Our</span> Team
           </div>
-          <div className="headertext">
-            <p>
+          {/* <div className="headertext">
+            {/* <p>
               Google is known all around the world. Everyone is 'googling',
               checking on 'maps' and communicating in 'gmail'. For simple users,
               they are services that just works, but not for us. Developers see
@@ -299,8 +299,8 @@ const Team = () => {
               Our goal is to organize space to connect the best industry experts
               with Indian audience to boost development of IT. And Our Core Team
               is:
-            </p>
-          </div>
+            </p> 
+          </div> */}
         </div>
         {user && user.type === "admin" && (
           <div
@@ -530,13 +530,13 @@ const Team = () => {
             />
           ))}
         </div>
-        <div className="orgTeamMem">
+        {/* <div className="orgTeamMem">
           <h4>Organizing Team Members</h4>
           <button className="orgTeamMembutton">
             <div className="orgTeamMemImg">
               <img src={toolbar} alt="" />
             </div>
-            <div className="orgTeamMemInfo">
+            {/* <div className="orgTeamMemInfo">
               <span>
                 <p>Aura</p>
                 <p>Aura Admin</p>
@@ -550,9 +550,9 @@ const Team = () => {
               <a className="links" href="www.medium.com">
                 <i className="fa fa-brands fa-medium fa-2xs"></i>
               </a>
-            </div>
+            </div> 
           </button>
-        </div>
+        </div> */}
         <Footer />
       </div>
     </>
