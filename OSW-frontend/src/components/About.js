@@ -26,6 +26,8 @@ export default function About() {
               </p>
             </span>
             <span>
+              <br />
+              <div style={{display: 'flex', justifyContent: 'left'}}>
               <button type="button" className="becomeMember">
                 <a href="https://meetup.com/GDG-Jalandhar" target="_blank">
                   Become a Member
@@ -36,6 +38,7 @@ export default function About() {
                   Learn More
                 </a>
               </button>
+              </div>
             </span>
           </div>
         </div>

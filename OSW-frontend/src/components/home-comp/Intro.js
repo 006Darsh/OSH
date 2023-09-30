@@ -25,7 +25,7 @@ const Intro = () => {
         </b>
         <p className="AppName">Open Source Weekend</p>
         <p className="intro">
-        Welcome to the Open Source Weekend (OSW) repository! OSW is a community-driven initiative aimed at promoting and celebrating open-source technologies on a regular basis. Our goal is to create a platform for knowledge sharing, collaboration, and exploration of various open-source projects.
+        Welcome to the Open Source Weekend (OSW)! OSW is a community-driven initiative aimed at promoting and celebrating open-source technologies on a regular basis. Our goal is to create a platform for knowledge sharing, collaboration, and exploration of various open-source projects.
         </p>
         {/* <div className="box-container">
           <div className="rounded-grey-div-lg">
@@ -65,7 +65,7 @@ const Intro = () => {
           <Button className="my-button" onClick={handleClickLogin}>
             Become A Member
           </Button>
-          <Button className="my-button-2" onClick={handleClickAbout} style={{color: 'white'}}>
+          <Button className="my-button" onClick={handleClickAbout} style={{border: '2px solid #0e8388', background: 'none'}}>
             Learn More
           </Button>
         </div>

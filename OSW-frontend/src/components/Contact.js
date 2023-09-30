@@ -41,7 +41,7 @@ function Contact() {
             </a>
           </p>
           <br></br>
-          <p>
+          {/* <p>
             Follow Us:
             <a href="https://www.facebook.com/">
               <i
@@ -85,12 +85,12 @@ function Contact() {
                 style={{ color: "#7d7d7d" }}
               ></i>
             </a>
-          </p>
-          <br></br>
-          <button type="button" className="hash btn btn-secondary">
+          </p> */}
+          {/* <br></br> */}
+          <button type="button" className="hash btn btn-secondary" style={{color: 'white'}}>
             #OWS
           </button>
-          <button type="button" className="hash btn btn-secondary">
+          <button type="button" className="hash btn btn-secondary" style={{color: 'white'}}>
             #OpenSourceWeekend
           </button>
         </div>

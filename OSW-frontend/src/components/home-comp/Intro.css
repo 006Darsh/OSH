@@ -83,7 +83,7 @@
   border: none !important;
   margin-right: 10px !important;
 }
-.my-button:hover {
+.my-button:hover, .learn-more {
   background-color: #3b8d90 !important;
 }
 .my-button:active,
@@ -91,7 +91,7 @@
 .my-button:default {
   background-color: rgb(14, 131, 136) !important;
 }
-.my-button-2 {
+.learn-more {
   color: #0e8388;
 
   /* Set the outline style with the custom color */
