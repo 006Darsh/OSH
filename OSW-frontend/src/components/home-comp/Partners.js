@@ -2,19 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./Partners.css";
 // import PartnersCard from "./PartnersCard";
 import ImageCarousel from "./ImageCarousel";
-import image1 from "../../img/logo.JPG";
 import { hostname } from "../../hostname";
 
 const Partners = () => {
   // const imageUrl = 'partner1.jpg';
-  const images = [
-    image1,
-    image1,
-    image1,
-    image1,
-    image1,
-    // Add more image URLs here
-  ];
   const [teamMembers, setTeamMembers] = useState([]);
   const [getspeakers, setgetSpeakers] = useState([]);
   const fetchSpeakers = async () => {

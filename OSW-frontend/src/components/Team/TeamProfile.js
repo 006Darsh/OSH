@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./TeamProfile.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { hostname } from "../../hostname";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../Navbar";
@@ -8,7 +8,6 @@ export default function TeamProfile(props) {
   const [memberDetails, setMemberDetails] = useState(null);
   const { id } = useParams();
   const [loading, setLoading] = useState(true); // Add loading state
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [teamname, setteamname] = useState("");
   const [name, setName] = useState("");
