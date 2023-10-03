@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./EventsPage.css";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,7 +11,6 @@ const EventsPage = (props) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true); // Add loading state
   const [user, setUser] = useState(null);
-  const [regisered, setRegistered] = useState(false);
   useEffect(() => {
     // Get the JWT token from wherever you have stored it (e.g., localStorage)
     const getUser = async () => {
@@ -99,7 +98,7 @@ const EventsPage = (props) => {
     return formattedTime;
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`${hostname}/event/${id}`, {
         method: "GET",
@@ -124,10 +123,10 @@ const EventsPage = (props) => {
       // Set loading to false regardless of success or failure
       setLoading(false);
     }
-  };
+  }, [id]);
   useEffect(() => {
     fetchData(); // Call the fetchData function when the component mounts
-  }, []);
+  }, [fetchData]);
 
   if (loading) {
     // While loading, you can show a loading indicator or message

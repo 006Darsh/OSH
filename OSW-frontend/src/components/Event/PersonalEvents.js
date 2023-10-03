@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Events.css";
-import Meetup from "../home-comp/Meetup";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import SecFooter from "../SecFooter";

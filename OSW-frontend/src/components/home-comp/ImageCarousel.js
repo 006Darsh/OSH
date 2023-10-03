@@ -30,7 +30,7 @@ const ImageCarousel = ({ images }) => {
       <Carousel  responsive={responsive}>
         {images.map((image, index) => (
           <div className='img-car-con' key={index} style={customItemStyle}>
-            <img src={image} alt={`Image ${index}`} />
+            <image src={image} alt={`Image ${index}`} />
           </div>
         ))}
       </Carousel>

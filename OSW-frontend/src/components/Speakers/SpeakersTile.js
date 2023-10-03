@@ -81,11 +81,7 @@ export default function SpeakersTile({ speaker, onDelete }) {
       <div className="teamlinks">
         <div className="teamlinks">
           {speaker.social_links.map((link, index) => (
-            <a
-              key={index}
-              className="links"
-              href={`https://${link}`}
-            >
+            <a key={index} className="links" href={`https://${link}`}>
               {generateLinkIcon(link)}
             </a>
           ))}

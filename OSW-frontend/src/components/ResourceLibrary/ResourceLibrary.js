@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditResourceLibrary from "./edit_project_details";
 export default function ResourceLibrary() {
-  const [sortOrder, setSortOrder] = useState("asc");
+  // const [sortOrder, setSortOrder] = useState("asc");
   const [projectNameError, setProjectNameError] = useState("");
   const [projectDescError, setProjectDescError] = useState("");
   const [projectLinksError, setProjectLinksError] = useState("");

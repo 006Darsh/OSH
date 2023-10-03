@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./SpeakersProfile.css";
 import { Link, useParams } from "react-router-dom";
 import { hostname } from "../../hostname";
@@ -241,7 +241,7 @@ export default function SpeakersProfile(props) {
   };
 
   // const navigate = useNavigate();
-  const fetchSpeakDetails = async () => {
+  const fetchSpeakDetails = useCallback(async () => {
     try {
       const response = await fetch(`${hostname}/speaker/all-details/${id}`);
       const data = await response.json();
@@ -267,10 +267,10 @@ export default function SpeakersProfile(props) {
       // Set loading to false regardless of success or failure
       setLoading(false);
     }
-  };
+  }, [id]);
   useEffect(() => {
     fetchSpeakDetails();
-  }, [id]);
+  }, [fetchSpeakDetails]);
 
   if (loading) {
     // While loading, you can show a loading indicator or message
@@ -345,7 +345,7 @@ export default function SpeakersProfile(props) {
               </div>
               <div className="links">
                 {speakerDetails.social_links.map((link, index) => (
-                  <a key={index} className="" href={link}>
+                  <a key={index} className="links" href={`https://${link}`}>
                     {generateLinkIcon(link)}
                   </a>
                 ))}

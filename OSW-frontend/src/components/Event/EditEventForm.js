@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 function EventEditForm() {
   const Id = useParams();
-  const [event, setEvent] = useState();
   const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -41,7 +40,7 @@ function EventEditForm() {
   const [dropdownSpeakerOpen, setDropdownSpeakerOpen] = useState(false);
   const [speakerOptions, setSpeakerOptions] = useState([]);
   const [user, setUser] = useState(null);
-  const [eventPoster, setEventPoster] = useState(null);
+  // const [eventPoster, setEventPoster] = useState(null);
   const [token1, setToken] = useState();
   const getUser = async () => {
     if (localStorage.getItem("userAuthToken")) {
@@ -380,7 +379,7 @@ function EventEditForm() {
           event_goals: formData.event_goals,
           event_tags: formData.event_tags,
           speakers: formData.speakers,
-          pic: eventPoster,
+          // pic: eventPoster,
         }), // Convert form data to JSON
       });
 

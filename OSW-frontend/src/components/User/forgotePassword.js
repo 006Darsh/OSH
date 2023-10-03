@@ -42,7 +42,7 @@ const ForgetPassword = () => {
       );
 
       if (response.ok) {
-          const data = await response.json();
+          // const data = await response.json();
           console.log("Password Changed Successfully");
       } else {
         const errorData = await response.json();

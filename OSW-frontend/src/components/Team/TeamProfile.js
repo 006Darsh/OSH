@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./TeamProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { hostname } from "../../hostname";
@@ -68,7 +68,7 @@ export default function TeamProfile(props) {
     getUser();
     // console.log(user.type);
   }, []);
-  const fetchMemberDetails = async () => {
+  const fetchMemberDetails =useCallback( async () => {
     try {
       const response = await fetch(`${hostname}/team-member/all-details/${id}`);
       const data = await response.json();
@@ -89,10 +89,10 @@ export default function TeamProfile(props) {
       // Set loading to false regardless of success or failure
       setLoading(false);
     }
-  };
+  },[id]);
   useEffect(() => {
     fetchMemberDetails();
-  }, []);
+  }, [fetchMemberDetails]);
 
   if (loading) {
     // While loading, you can show a loading indicator or message
@@ -298,7 +298,7 @@ export default function TeamProfile(props) {
             <br />
             <div className="teamprofilesociallink">
               {memberDetails.social_links.map((link, index) => (
-                <a key={index} className="links" href={link}>
+                <a key={index} className="links" href={`https://${link}`}>
                   {generateLinkIcon(link)}
                 </a>
               ))}

@@ -93,11 +93,7 @@ export default function TeamTile({ team, onDelete }) {
       <div className="teamlinkss">
         <div className="teamlinks">
           {team.social_links.map((link, index) => (
-            <a
-              key={index}
-              className="links"
-              href={`https://${link}`}
-            >
+            <a key={index} className="links" href={`https://${link}`}>
               {generateLinkIcon(link)}
             </a>
           ))}
