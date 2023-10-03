@@ -38,6 +38,7 @@ const clientId =
 
 function App() {
   const AdminauthToken = localStorage.getItem("adminAuthToken");
+  const UserauthToken = localStorage.getItem("userAuthToken");
   const isAdminAuthenticated = AdminauthToken !== null;
 
   useEffect(() => {
@@ -48,7 +49,32 @@ function App() {
       });
     }
     gapi.load("client: auth2", start);
-  });
+    const checkTokenExpiry = () => {
+      if (UserauthToken) {
+        const userTokenParts = UserauthToken.split(".");
+        const userPayload = JSON.parse(atob(userTokenParts[1]));
+
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (userPayload.exp && userPayload.exp < currentTime) {
+          localStorage.removeItem("userAuthToken");
+        }
+      }
+
+      if (AdminauthToken) {
+        const adminTokenParts = AdminauthToken.split(".");
+        const adminPayload = JSON.parse(atob(adminTokenParts[1]));
+
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (adminPayload.exp && adminPayload.exp < currentTime) {
+          localStorage.removeItem("adminAuthToken");
+        }
+      }
+    };
+
+    checkTokenExpiry();
+  }, [UserauthToken, AdminauthToken]);
 
   return (
     <div className="App">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Events.css";
 import Meetup from "../home-comp/Meetup";
 import Navbar from "../Navbar";
@@ -39,6 +39,62 @@ const Events = () => {
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
+  const getUser = useCallback(async () => {
+    if (localStorage.getItem("userAuthToken")) {
+      const token = localStorage.getItem("userAuthToken");
+
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
+
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload);
+          setToken(token);
+          try {
+            const response = await fetch(
+              `${hostname}/user/profile/${payload._id}`
+            );
+            const data = await response.json();
+            if (data.success) {
+              console.log(data);
+              setUserData(data.data);
+            } else {
+              console.log(data.message);
+              throw new Error("Failed to Get Profile. Please Reload");
+            }
+          } catch (error) {
+            console.log(error.message);
+          }
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
+        }
+      }
+    } else {
+      const token = localStorage.getItem("adminAuthToken");
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
+
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload.type);
+          setToken(localStorage.getItem("adminAuthToken"));
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
+        }
+      }
+    }
+  }, []);
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
   const convertDate = (date) => {
     const originalDate = new Date(date); // Parse the original date string
     const year = originalDate.getFullYear(); // Get the year
@@ -61,67 +117,18 @@ const Events = () => {
       return true;
     }
   }
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(`${hostname}/user/profile/${user._id}`);
-        const data = await response.json();
-        if (data.success) {
-          setUserData(data.data);
-        } else {
-          console.log(data.message);
-          throw new Error("Failed to Get Profile. Please Reload");
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    if (user._id && user._id !== "") {
-      fetchUserProfile();
-    }
-  }, [user]);
-  useEffect(() => {
-    const getUser = async () => {
-      if (localStorage.getItem("userAuthToken")) {
-        const token = localStorage.getItem("userAuthToken");
+  // const fetchUserProfile = useCallback(async () => {
 
-        if (token) {
-          try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
+  // }, [user]);
+  // useEffect(() => {
+  //   console.log(user);
+  //   if (user) {
+  //     if (user._id && user._id !== "") {
+  //       fetchUserProfile();
+  //     }
+  //   }
+  // }, [user, fetchUserProfile]);
 
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setToken(token);
-            await setUser(payload); // Set user state with decoded data
-          } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
-          }
-        }
-      } else {
-        const token = localStorage.getItem("adminAuthToken");
-        if (token) {
-          try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
-
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setToken(localStorage.getItem("adminAuthToken"));
-            setUser(payload); // Set user state with decoded data
-          } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
-          }
-        }
-      }
-    };
-    getUser();
-    // console.log(user.type);
-  }, []);
   // const handleSort = () => {
   //   const sortedEvents = [...events].sort((a, b) => {
   //     const nameA = a.name.toLowerCase();
@@ -426,7 +433,7 @@ const Events = () => {
             </tr>
           </tbody>
         </table>
-        {user && (
+        {user && user.type !== "admin" ? (
           <>
             {userData.profile.first_name &&
             userData.profile.last_name &&
@@ -456,6 +463,17 @@ const Events = () => {
               </div>
             )}
           </>
+        ) : (
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-dismiss
+              onClick={handleCreateClick}
+            >
+              Create Event
+            </button>
+          </div>
         )}
       </div>
       <p className="eventpg-text">

@@ -89,20 +89,17 @@ const Meetup = () => {
         <p> Events are listed in reverse chronological order by date.</p>
         <div className="display-card">
           <div className="meet-p1">
-            {events.map((event) => (
-              <>
-                {event.hosted_by_admin && (
-                  <MeetupCard
-                    // id={event._id}
-                    // date={event.event_date}
-                    // event={event.event_name}
-                    // mode={event.event_type}
-                    event={event}
-                    onDelete={(e) => handleDelete(e, event._id)}
-                  />
-                )}
-              </>
-            ))}
+            {events
+              .filter((event) => event.hosted_by_admin)
+              .sort((a, b) => new Date(b.event_date) - new Date(a.event_date))
+              .slice(0, 3)
+              .map((event) => (
+                <MeetupCard
+                  key={event._id} // Ensure each item has a unique key
+                  event={event}
+                  onDelete={(e) => handleDelete(e, event._id)}
+                />
+              ))}
           </div>
         </div>
       </div>
