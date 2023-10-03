@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import './Partners.css';
-import PartnersCard from "./PartnersCard";
+// import PartnersCard from "./PartnersCard";
 import ImageCarousel from "./ImageCarousel";
 import image1 from "../../img/logo.JPG"
 

@@ -1,12 +1,12 @@
 import React from "react";
 import './WhatWeDo.css';
 // import {Tooltip} from 'react-tooltip';
-import angular_img from '../../img/angular.png';
-import cloud_img from '../../img/cloud.png';
-import android_img from '../../img/android.png';
-import assistant_img from '../../img/assistant.png';
-import firebase_img from '../../img/firebase.png';
-import tensorflow_img from '../../img/tensorflow.png';
+// import angular_img from '../../img/angular.png';
+// import cloud_img from '../../img/cloud.png';
+// import android_img from '../../img/android.png';
+// import assistant_img from '../../img/assistant.png';
+// import firebase_img from '../../img/firebase.png';
+// import tensorflow_img from '../../img/tensorflow.png';
 
 const WhatWeDo = () => {
 

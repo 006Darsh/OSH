@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Team.css";
 import TeamTile from "./TeamTile";
-import toolbar from "../../img/toolbar.png";
+// import toolbar from "../../img/toolbar.png";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { hostname } from "../../hostname";
