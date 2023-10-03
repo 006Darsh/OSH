@@ -1,9 +1,10 @@
-import React from 'react';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import './ImageCarousel.css'
+import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import "./ImageCarousel.css";
+import { Link } from "react-router-dom";
 
-const ImageCarousel = ({ images }) => {
+const ImageCarousel = ({ item, prop }) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -20,19 +21,46 @@ const ImageCarousel = ({ images }) => {
   };
 
   const customItemStyle = {
-    paddingLeft: '10px', // Adjust the left padding to reduce spacing
-    paddingRight: '10px', // Adjust the right padding to reduce spacing
+    paddingLeft: "10px", // Adjust the left padding to reduce spacing
+    paddingRight: "10px", // Adjust the right padding to reduce spacing
   };
-
 
   return (
     <div className="multi-image-carousel">
-      <Carousel  responsive={responsive}>
-        {images.map((image, index) => (
-          <div className='img-car-con' key={index} style={customItemStyle}>
-            <image src={image} alt={`Image ${index}`} />
-          </div>
-        ))}
+      <Carousel responsive={responsive}>
+        {prop === "team" ? (
+          <>
+            {item.map((item, index) => (
+              <div className="img-car-con" key={index} style={customItemStyle}>
+                <Link
+                  to={{
+                    pathname: `/team-member/details/${item._id}`,
+                  }}
+                >
+                  <span className="sessionAvatar">{item.name.charAt(0)}</span>
+                  <span className="sessionname">{item.name}</span>
+                </Link>
+                {/* <image src={image} alt={`Image ${index}`} /> */}
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            {item.map((item, index) => (
+              <div className="img-car-con" key={index} style={customItemStyle}>
+                <Link
+                  to={{
+                    pathname: `/speaker/details/${item._id}`,
+                  }}
+                >
+                  <span className="sessionAvatar">{item.name.charAt(0)}</span>
+                  <span className="sessionname">{item.name}</span>
+                </Link>
+                {/* <image src={image} alt={`Image ${index}`} /> */}
+              </div>
+            ))}
+          </>
+        )}
       </Carousel>
     </div>
   );

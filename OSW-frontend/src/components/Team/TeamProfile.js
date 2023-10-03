@@ -3,6 +3,7 @@ import "./TeamProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { hostname } from "../../hostname";
 import { ToastContainer, toast } from "react-toastify";
+import Navbar from "../Navbar";
 export default function TeamProfile(props) {
   const [memberDetails, setMemberDetails] = useState(null);
   const { id } = useParams();
@@ -68,7 +69,7 @@ export default function TeamProfile(props) {
     getUser();
     // console.log(user.type);
   }, []);
-  const fetchMemberDetails =useCallback( async () => {
+  const fetchMemberDetails = useCallback(async () => {
     try {
       const response = await fetch(`${hostname}/team-member/all-details/${id}`);
       const data = await response.json();
@@ -89,7 +90,7 @@ export default function TeamProfile(props) {
       // Set loading to false regardless of success or failure
       setLoading(false);
     }
-  },[id]);
+  }, [id]);
   useEffect(() => {
     fetchMemberDetails();
   }, [fetchMemberDetails]);
@@ -241,13 +242,14 @@ export default function TeamProfile(props) {
       return "Link";
     }
   };
-  function goback() {
-    navigate("/team");
-  }
+  // function goback() {
+  //   navigate("/team");
+  // }
 
   return (
     <div className="teamProfilepage">
-      <div className="back">
+      <Navbar />
+      {/* <div className="back">
         <span className="arrow">
           <button onClick={goback}>
             <i
@@ -257,7 +259,7 @@ export default function TeamProfile(props) {
             Team
           </button>
         </span>
-      </div>
+      </div> */}
       <div className="profile">
         <div
           className="memberPhotoAndOtherInfo"

@@ -7,6 +7,7 @@ const PartnersCard = (props) => {
     // const {imageUrl} = props
     return (
         <div className="partners-card-con">
+            
             <img className="partner-img" src={partner1} alt="" />
         </div>
     )
