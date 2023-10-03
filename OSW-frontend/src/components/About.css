@@ -59,6 +59,10 @@
   
   .becomeMember a {
     color: white;
+    text-decoration: none;
+  }
+  .becomeMember:hover{
+    background-color: rgb(14, 131, 136 ,0.8);
   }
   
   .learnMore {
@@ -74,6 +78,10 @@
   .learnMore a {
     color: #0E8388;
     border-radius: 4px;
+    text-decoration: none;
+  }
+  .learnMore:hover{
+    background-color: rgb(14, 131, 136, 0.1);
   }
   
   /* Community Guidline Accordion */

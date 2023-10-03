@@ -14,8 +14,8 @@ const WhatWeDo = () => {
     <div className='outer-div'>
       <div className="first">
         <p className="title">What we do?</p>
-        <p className="intro-text">Google Developer Groups (GDGs) are for developers who are interested in Google's developer technology.</p>
-        <p className="intro-text-1">About different Google technologies</p> 
+        <p className="intro-text">Promote open-source technologies and their benefits to the community.</p>
+        {/* <p className="intro-text-1">About different Google technologies</p> 
         <div className="tech-img"> 
             <a className='a-link' href="https://angular.io/">
             <img className="images1" src={angular_img} alt="" />
@@ -35,7 +35,7 @@ const WhatWeDo = () => {
             <a className='a-link' href="https://www.tensorflow.org/">
               <img className="images6" src={tensorflow_img} alt="" />
             </a>
-        </div> 
+        </div>  */}
       </div>
       <div className="pairs">
       <div className="pair-1">
