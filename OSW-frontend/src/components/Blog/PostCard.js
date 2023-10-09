@@ -50,8 +50,8 @@ const PostCard = ({ blog, setBlogs, user, personal }) => {
     setThumbnail(thumbimg);
   }, [blog]);
 
-  const handleBlogClick = (blogId) => {
-    navigate(`/blogPage/${blogId}`);
+  const handleBlogClick = (blogId, personal) => {
+    navigate(`/blogPage/${blogId}`, { state: { personal } });
   };
 
   const handleDeleteBlog = async (blogId, event) => {
@@ -142,7 +142,7 @@ const PostCard = ({ blog, setBlogs, user, personal }) => {
       mb={4}
       borderRadius="md"
       _hover={{ boxShadow: "2xl", cursor: "pointer" }}
-      onClick={() => handleBlogClick(blog._id)}
+      onClick={() => handleBlogClick(blog._id, personal)}
       width={{ base: "100%", md: "48%", lg: "32%" }}
       height="auto"
       position="relative"

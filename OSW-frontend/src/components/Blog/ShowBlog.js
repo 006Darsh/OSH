@@ -10,7 +10,7 @@ import {
   IconButton,
   useToast,
 } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { extendTheme } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import PostDeleteAlert from "./PostDeleteAlert";
@@ -28,6 +28,8 @@ const ShowBlog = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const location = useLocation();
+  const personal = location.state?.personal;
   useEffect(() => {
     // Get the JWT token from wherever you have stored it (e.g., localStorage)
     const getUser = async () => {
@@ -405,39 +407,41 @@ const ShowBlog = () => {
 
             {/* {(userType === "ngo" || userType === "admin") && ( */}
             {user && (
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                _groupHover={{ opacity: 1 }} // Visible on hover
-              >
-                <IconButton
-                  icon={<DeleteIcon />}
-                  variant="ghost"
-                  _hover={{ color: "black", bgColor: "transparent" }}
-                  color="red"
-                  aria-label="Delete"
-                  size="md"
-                  onClick={() => {
-                    setIsDeleteDialogOpen(true);
-                  }}
-                />
-                {/* {userType === "ngo" && ( */}
-                <IconButton
-                  icon={<EditIcon />}
-                  variant="ghost"
-                  _hover={{ color: "blue", bgColor: "transparent" }}
-                  color="black"
-                  aria-label="Edit"
-                  size="md"
-                  onClick={() => {
-                    setIsUpdateDialogOpen(true);
-                  }}
-                />
-                {/* )} */}
-              </Flex>
+              <>
+                {(personal || user.type === "admin") && (
+                  <Flex
+                    alignItems="center"
+                    justifyContent="center"
+                    _groupHover={{ opacity: 1 }} // Visible on hover
+                  >
+                    <IconButton
+                      icon={<DeleteIcon />}
+                      variant="ghost"
+                      _hover={{ color: "black", bgColor: "transparent" }}
+                      color="red"
+                      aria-label="Delete"
+                      size="md"
+                      onClick={() => {
+                        setIsDeleteDialogOpen(true);
+                      }}
+                    />
+                    {/* {userType === "ngo" && ( */}
+                    <IconButton
+                      icon={<EditIcon />}
+                      variant="ghost"
+                      _hover={{ color: "blue", bgColor: "transparent" }}
+                      color="black"
+                      aria-label="Edit"
+                      size="md"
+                      onClick={() => {
+                        setIsUpdateDialogOpen(true);
+                      }}
+                    />
+                    {/* )} */}
+                  </Flex>
+                )}
+              </>
             )}
-
-            {/* )} */}
           </Flex>
 
           <Box width="100%" overflowWrap="break-word">

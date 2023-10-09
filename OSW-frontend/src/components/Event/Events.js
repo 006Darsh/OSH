@@ -433,11 +433,39 @@ const Events = () => {
             </tr>
           </tbody>
         </table>
-        {user && user.type !== "admin" ? (
+        {user && (
           <>
-            {userData.profile.first_name &&
-            userData.profile.last_name &&
-            userData.profile.profile_pic ? (
+            {user && user.type !== "admin" ? (
+              <>
+                {userData.profile.first_name &&
+                userData.profile.last_name &&
+                userData.profile.profile_pic ? (
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      data-bs-dismiss
+                      onClick={handleCreateClick}
+                    >
+                      Create Event
+                    </button>
+                  </div>
+                ) : (
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      data-bs-dismiss
+                      onClick={() => {
+                        navigate("/profile");
+                      }}
+                    >
+                      Create Event
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
               <div className="modal-footer">
                 <button
                   type="button"
@@ -448,32 +476,8 @@ const Events = () => {
                   Create Event
                 </button>
               </div>
-            ) : (
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-dismiss
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                >
-                  Create Event
-                </button>
-              </div>
             )}
           </>
-        ) : (
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-dismiss
-              onClick={handleCreateClick}
-            >
-              Create Event
-            </button>
-          </div>
         )}
       </div>
       <p className="eventpg-text">

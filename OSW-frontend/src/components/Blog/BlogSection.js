@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -20,50 +20,65 @@ const MediaSection = ({ userType }) => {
   const [user, setUser] = useState(null);
   const [Personal, setPersonal] = useState(false);
   const [isLSmallScreen] = useMediaQuery("(max-width: 800px)");
+  const [userData, setUserData] = useState(null);
 
   const navigate = useNavigate();
   const toast = useToast();
-  useEffect(() => {
-    // Get the JWT token from wherever you have stored it (e.g., localStorage)
-    const getUser = async () => {
-      if (localStorage.getItem("userAuthToken")) {
-        const token = localStorage.getItem("userAuthToken");
 
-        if (token) {
+  const getUser = useCallback(async () => {
+    if (localStorage.getItem("userAuthToken")) {
+      const token = localStorage.getItem("userAuthToken");
+
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
+
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload);
           try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
-
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            await setUser(payload); // Set user state with decoded data
+            const response = await fetch(
+              `${hostname}/user/profile/${payload._id}`
+            );
+            const data = await response.json();
+            if (data.success) {
+              console.log(data);
+              setUserData(data.data);
+            } else {
+              console.log(data.message);
+              throw new Error("Failed to Get Profile. Please Reload");
+            }
           } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
+            console.log(error.message);
           }
-        }
-      } else {
-        const token = localStorage.getItem("adminAuthToken");
-        if (token) {
-          try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
-
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setUser(payload); // Set user state with decoded data
-          } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
-          }
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
         }
       }
-    };
-    getUser();
-    // console.log(user.type);
+    } else {
+      const token = localStorage.getItem("adminAuthToken");
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
+
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload.type);
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
+        }
+      }
+    }
   }, []);
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
   // Fetch all blogs when the component mounts
   const fetchBlogs = async () => {
     const url = `${hostname}/blogs`;
@@ -266,30 +281,88 @@ const MediaSection = ({ userType }) => {
           {/* {userType === "ngo" && ( */}
           {/* )} */}
           {user && (
-            <div
-              style={{
-                marginLeft: "80vw",
-                marginTop: "-6vh",
-                marginBottom: "5vh",
-              }}
-            >
-              <Button
-                onClick={() => navigate("/post-blogs")}
-                bg="white"
-                color="teal"
-                boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
-                //   _hover={{ boxShadow: "0px 4px 6px teal" }}
-                //   _active={{ boxShadow: "0px 2px 4px" }}
-              >
-                {/* Create New */}
-                {!isLSmallScreen ? (
-                  "Create New"
-                ) : (
-                  <IconButton as={AddIcon} boxSize={6} bg={"transparent"} />
-                )}
-              </Button>
-            </div>
+            <>
+              {user && user.type !== "admin" ? (
+                <>
+                  {userData.profile.first_name &&
+                  userData.profile.last_name &&
+                  userData.profile.profile_pic ? (
+                    <div
+                      style={{
+                        marginLeft: "80vw",
+                        marginTop: "-6vh",
+                        marginBottom: "5vh",
+                      }}
+                    >
+                      <Button
+                        onClick={() => navigate("/post-blogs")}
+                        bg="white"
+                        color="teal"
+                        boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+                      >
+                        {!isLSmallScreen ? (
+                          "Create New"
+                        ) : (
+                          <IconButton
+                            as={AddIcon}
+                            boxSize={6}
+                            bg={"transparent"}
+                          />
+                        )}
+                      </Button>
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        marginLeft: "80vw",
+                        marginTop: "-6vh",
+                        marginBottom: "5vh",
+                      }}
+                    >
+                      <Button
+                        onClick={() => navigate("/post-blogs")}
+                        bg="white"
+                        color="teal"
+                        boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+                      >
+                        {!isLSmallScreen ? (
+                          "Create New"
+                        ) : (
+                          <IconButton
+                            as={AddIcon}
+                            boxSize={6}
+                            bg={"transparent"}
+                          />
+                        )}
+                      </Button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div
+                  style={{
+                    marginLeft: "80vw",
+                    marginTop: "-6vh",
+                    marginBottom: "5vh",
+                  }}
+                >
+                  <Button
+                    onClick={() => navigate("/post-blogs")}
+                    bg="white"
+                    color="teal"
+                    boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+                  >
+                    {!isLSmallScreen ? (
+                      "Create New"
+                    ) : (
+                      <IconButton as={AddIcon} boxSize={6} bg={"transparent"} />
+                    )}
+                  </Button>
+                </div>
+              )}
+            </>
           )}
+
           {/* </Flex> */}
           <Flex justifyContent={"center"}>
             <Flex flexWrap="wrap" justifyContent={"center"} gap={2}>
