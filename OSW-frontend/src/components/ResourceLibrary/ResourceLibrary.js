@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ResourceLibrary.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDocker, faGithub } from "@fortawesome/free-brands-svg-icons";
-import {
-  faEdit,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import TruncateText from "../TruncateText";
 // import ResourceLibraryProfile from "./ResourceLibraryProfile";
 import Navbar from "../Navbar";
@@ -115,7 +112,10 @@ export default function ResourceLibrary() {
   const indexOfLastProject = currentPage * rowsPerPage;
   // const indexOfFirstProject = indexOfLastProject - rowsPerPage;
   const indexOfFirstProject = indexOfLastProject - rowsPerPage;
-  const currentProjects = getprojects.slice(indexOfFirstProject, indexOfLastProject);
+  const currentProjects = getprojects.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  );
 
   // const handleSort = () => {
   //   const sortedProjects = [...getprojects].sort((a, b) => {
@@ -327,7 +327,7 @@ export default function ResourceLibrary() {
                   {/* </span> */}
                 </th>
                 <th>Project Discription</th>
-                <th>Github/Docker Link</th>
+                <th>Project Link</th>
                 <th>Tags</th>
                 {user && user.type === "admin" && (
                   <>
@@ -446,10 +446,7 @@ export default function ResourceLibrary() {
                         onChange={handleRowsPerPageChange}
                       >
                         {rowsPerPageOptions.map((option) => (
-                          <option
-                            key={option}
-                            value={option}
-                          >
+                          <option key={option} value={option}>
                             {option}
                           </option>
                         ))}

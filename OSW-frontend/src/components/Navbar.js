@@ -5,7 +5,6 @@ import profile_img from "../img/profile-img.jpg";
 import "./Navbar.css";
 // import { Padding } from "@mui/icons-material";
 // import ModalForm from "./ModalForm";
-import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import NotificationsPanel from "./Notification/notificationPanel";
 
@@ -17,18 +16,19 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [selectedImage, setSelectedImage] = useState(profile_img);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [panelClosing, setPanelClosing] = useState(false);
+  // let setPanelClosing = false;
+  // const [panelClosing, setPanelClosing] = useState(false);
   const navigateToChat = () => {
     navigate("/chat");
   };
   const toggleNotifications = () => {
     if (showNotifications) {
       // Start the panel closing transition
-      setPanelClosing(true);
+      // setPanelClosing = true;
       // Delay hiding the panel until the transition is complete
       setTimeout(() => {
         setShowNotifications(false);
-        setPanelClosing(false); // Reset panel closing state
+        // setPanelClosing = false; // Reset panel closing state
       }, 300); // Adjust the delay time to match your transition duration (0.3s in this case)
     } else {
       setShowNotifications(true);
@@ -97,10 +97,11 @@ export default function Navbar() {
     if (userId && userId !== "" && user.type === "user") {
       fetchPic();
     }
-  }, [userId]);
+  }, [userId, user]);
   const handleLogoutClick = () => {
     // Handle the "Logout" action here
     if (localStorage.getItem("userAuthToken")) {
+      console.log(localStorage.getItem("userAuthToken"));
       localStorage.removeItem("userAuthToken");
       navigate("/login", { replace: true });
     } else {
