@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -30,47 +30,47 @@ const ShowBlog = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
   const personal = location.state?.personal;
-  useEffect(() => {
-    // Get the JWT token from wherever you have stored it (e.g., localStorage)
-    const getUser = async () => {
-      if (localStorage.getItem("userAuthToken")) {
-        const token = localStorage.getItem("userAuthToken");
+  // Get the JWT token from wherever you have stored it (e.g., localStorage)
+  const getUser = useCallback(async () => {
+    if (localStorage.getItem("userAuthToken")) {
+      const token = localStorage.getItem("userAuthToken");
 
-        if (token) {
-          try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
 
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setUser(payload); // Set user state with decoded data
-          } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
-          }
-        }
-      } else {
-        const token = localStorage.getItem("adminAuthToken");
-        if (token) {
-          try {
-            // Split the token into its parts
-            const tokenParts = token.split(".");
-
-            // Base64-decode and parse the payload part (the second part)
-            const payload = JSON.parse(atob(tokenParts[1]));
-            console.log(payload.type);
-            setUser(payload); // Set user state with decoded data
-          } catch (error) {
-            // Handle decoding error (e.g., token is invalid)
-            console.error("Error decoding JWT token:", error);
-          }
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload.type);
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
         }
       }
-    };
+    } else {
+      const token = localStorage.getItem("adminAuthToken");
+      if (token) {
+        try {
+          // Split the token into its parts
+          const tokenParts = token.split(".");
+
+          // Base64-decode and parse the payload part (the second part)
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log(payload.type);
+          setUser(payload); // Set user state with decoded data
+        } catch (error) {
+          // Handle decoding error (e.g., token is invalid)
+          console.error("Error decoding JWT token:", error);
+        }
+      }
+    }
+  }, []);
+  useEffect(() => {
     getUser();
     // console.log(user.type);
-  }, []);
+  }, [getUser]);
   const theme = extendTheme({
     styles: {
       global: {
@@ -154,31 +154,17 @@ const ShowBlog = () => {
     },
   };
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      const url = `${hostname}/blog/${id}`;
+  const fetchBlog = useCallback(async () => {
+    const url = `${hostname}/blog/${id}`;
 
-      try {
-        // Replace this with your logic to fetch the blog post using the id
-        const response = await fetch(url, options);
-        const Data = await response.json();
-        console.log(Data);
+    try {
+      // Replace this with your logic to fetch the blog post using the id
+      const response = await fetch(url, options);
+      const Data = await response.json();
+      console.log(Data);
 
-        if (!Data.success) {
-          setBlog({});
-          toast({
-            title: "Error fetching blog",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "top-right",
-          });
-          return;
-        }
-
-        setBlog(Data.blogData);
-      } catch (error) {
-        console.error("Error fetching blog:", error);
+      if (!Data.success) {
+        setBlog({});
         toast({
           title: "Error fetching blog",
           status: "error",
@@ -186,10 +172,24 @@ const ShowBlog = () => {
           isClosable: true,
           position: "top-right",
         });
+        return;
       }
-    };
+
+      setBlog(Data.blogData);
+    } catch (error) {
+      console.error("Error fetching blog:", error);
+      toast({
+        title: "Error fetching blog",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [id, toast, options]);
+  useEffect(() => {
     fetchBlog();
-  }, [id]);
+  }, [fetchBlog]);
 
   const handleDeleteBlog = async (blogId) => {
     setIsDeleteDialogOpen(false);
