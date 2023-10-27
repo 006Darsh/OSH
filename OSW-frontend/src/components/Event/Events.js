@@ -57,6 +57,7 @@ const Events = () => {
               `${hostname}/user/profile/${payload._id}`
             );
             const data = await response.json();
+            console.log(data);
             if (data.success) {
               console.log(data);
               setUserData(data.data);
@@ -117,35 +118,6 @@ const Events = () => {
       return true;
     }
   }
-  // const fetchUserProfile = useCallback(async () => {
-
-  // }, [user]);
-  // useEffect(() => {
-  //   console.log(user);
-  //   if (user) {
-  //     if (user._id && user._id !== "") {
-  //       fetchUserProfile();
-  //     }
-  //   }
-  // }, [user, fetchUserProfile]);
-
-  // const handleSort = () => {
-  //   const sortedEvents = [...events].sort((a, b) => {
-  //     const nameA = a.name.toLowerCase();
-  //     const nameB = b.name.toLowerCase();
-
-  //     if (nameA < nameB) {
-  //       return sortOrder === "asc" ? -1 : 1;
-  //     }
-  //     if (nameA > nameB) {
-  //       return sortOrder === "asc" ? 1 : -1;
-  //     }
-  //     return 0;
-  //   });
-
-  //   setEvents(sortedEvents);
-  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  // };
 
   const handleSeeMoreClick = (event) => {
     console.log(event._id);
@@ -439,13 +411,15 @@ const Events = () => {
               <>
                 {userData.profile.first_name &&
                 userData.profile.last_name &&
-                userData.profile.profile_pic ? (
+                userData.profile.pic ? (
                   <div className="modal-footer">
                     <button
                       type="button"
                       className="btn btn-primary"
                       data-bs-dismiss
-                      onClick={handleCreateClick}
+                      onClick={() => {
+                        handleCreateClick();
+                      }}
                     >
                       Create Event
                     </button>
@@ -457,7 +431,8 @@ const Events = () => {
                       className="btn btn-primary"
                       data-bs-dismiss
                       onClick={() => {
-                        navigate("/profile");
+                        // navigate("/profile");
+                        console.log(userData);
                       }}
                     >
                       Create Event

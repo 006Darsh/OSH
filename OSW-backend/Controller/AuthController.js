@@ -40,7 +40,6 @@ exports.UserSignup = async (req, res) => {
       user_name: newUser.user_name,
       email: newUser.email,
       password: newUser.password,
-      name: user.profile.first_name + " " + user.profile.last_name,
       type: "user", 
     };
 

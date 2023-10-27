@@ -8,29 +8,48 @@ import sideImg from "../img/contact.svg";
 // import TwitterIcon from "@mui/icons-material/Twitter";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 import SecFooter from "./SecFooter";
+import { useNavigate } from "react-router-dom";
 
 function Contact() {
+  const navigate = useNavigate();
+  const ContactUs = () => {
+    navigate("/contact-us/send-message");
+  };
   return (
     <>
       <Navbar />
       <div className="contact-container">
         <div className="side1 side">
-        <p style={{fontSize: "38px", fontWeight: "600", fontFamily: '"Open Sans", sans-serif;'}}>
-           How to Get <span style={{ color: "#0E8388"}}>Involved</span>   
-          </p>          <p id="disc">
-          We welcome anyone interested in open-source technologies to join the OSW community. Here's how you can get involved:
+          <p
+            style={{
+              fontSize: "38px",
+              fontWeight: "600",
+              fontFamily: '"Open Sans", sans-serif;',
+            }}
+          >
+            How to Get <span style={{ color: "#0E8388" }}>Involved</span>
+          </p>{" "}
+          <p id="disc">
+            We welcome anyone interested in open-source technologies to join the
+            OSW community. Here's how you can get involved:
           </p>
           <li>
-          Participate in Events: Attend our regular OSW events where we cover various open-source topics through talks, workshops, and hands-on sessions.
+            Participate in Events: Attend our regular OSW events where we cover
+            various open-source topics through talks, workshops, and hands-on
+            sessions.
           </li>
           <li>
-          Share Your Expertise: Propose a session or workshop to share your knowledge and experience with the community.
+            Share Your Expertise: Propose a session or workshop to share your
+            knowledge and experience with the community.
           </li>
           <li>
-          Contribute to Projects: Collaborate with other developers on open-source projects showcased during OSW events.
+            Contribute to Projects: Collaborate with other developers on
+            open-source projects showcased during OSW events.
           </li>
           <li>
-          Connect with the Community: Join our online forums and social media channels to connect with like-minded individuals, ask questions, and share your insights.
+            Connect with the Community: Join our online forums and social media
+            channels to connect with like-minded individuals, ask questions, and
+            share your insights.
           </li>
           <br />
           <br />
@@ -87,11 +106,27 @@ function Contact() {
             </a>
           </p> */}
           {/* <br></br> */}
-          <button type="button" className="hash btn btn-secondary" style={{color: 'white'}}>
+          <button
+            type="button"
+            className="hash btn btn-secondary"
+            style={{ color: "white" }}
+          >
             #OWS
           </button>
-          <button type="button" className="hash btn btn-secondary" style={{color: 'white'}}>
+          <button
+            type="button"
+            className="hash btn btn-secondary"
+            style={{ color: "white" }}
+          >
             #OpenSourceWeekend
+          </button>
+          <button
+            type="button"
+            className="hash btn btn-secondary"
+            style={{ color: "white" }}
+            onClick={() => ContactUs()}
+          >
+            Contact Us
           </button>
         </div>
         <div className="side2 side">
