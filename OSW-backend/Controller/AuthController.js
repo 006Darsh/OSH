@@ -133,7 +133,6 @@ exports.UserLogin = async (req, res) => {
         _id: user._id,
         user_name: user.user_name,
         email: user.email,
-        name: user.profile.first_name + " " + user.profile.last_name,
         type: "user",
       };
 
