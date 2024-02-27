@@ -33,7 +33,6 @@ exports.UserSignup = async (req, res) => {
       password: hashedPassword,
     });
 
-    await newUser.save();
 
     const payload = {
       _id: newUser._id,

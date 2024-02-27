@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./EventForm.css";
 import { hostname } from "../../hostname";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function EventRegistrationForm(props) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     event_name: "",
     language: "",
@@ -238,6 +239,7 @@ function EventRegistrationForm(props) {
           backgroundColor: "green",
         });
         console.log("Event created successfully:", data.Event);
+        navigate("/events");
         // Reset the form or perform any other actions
       } else {
         const errorData = await response.json();

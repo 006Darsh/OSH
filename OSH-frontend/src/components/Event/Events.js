@@ -431,7 +431,7 @@ const Events = () => {
                       className="btn btn-primary"
                       data-bs-dismiss
                       onClick={() => {
-                        // navigate("/profile");
+                        navigate("/profile");
                         console.log(userData);
                       }}
                     >

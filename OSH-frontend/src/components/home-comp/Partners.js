@@ -59,12 +59,10 @@ const Partners = () => {
         </p>
         <p className="general-partners">Teams</p>
         <div className="display-partners">
-          {/* <PartnersCard/> */}
           <ImageCarousel item={teamMembers} prop={"team"} />
         </div>
         <p className="general-partners">Speakers</p>
         <div className="display-partners">
-          {/* <PartnersCard/> */}
           <ImageCarousel item={getspeakers} prop={"speaker"} />
         </div>
       </div>
