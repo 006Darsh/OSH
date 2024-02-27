@@ -1,4 +1,4 @@
-# OSW - backend
+# OSH - backend
 
 Create a '.env' file in the main folder with content
 
@@ -14,7 +14,7 @@ blog
 
 After doing this much run 'npm i' command in your teminal
 
-# OSW - frontnd
+# OSH - frontnd
 
 Run the command 'npm i --force' in the terminal of your frontend folder
 
